@@ -14,7 +14,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="backend\" />
+    <EditorConfigFiles Remove="C:\Users\IGY\source\repos\CoworkingSystem\CoworkingSystem\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="config.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="config.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\IGY\source\repos\CoworkingSystem\CoworkingSystem\.editorconfig" />
   </ItemGroup>
 
 </Project>
