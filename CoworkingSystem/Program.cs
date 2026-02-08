@@ -10,6 +10,11 @@ namespace CoworkingSystem
         [STAThread]
         static void Main()
         {
+            // pravim neke promene
+            // pravim neke promene
+            // pravim neke promene
+            // pravim neke promene
+
             try
             {
                 TestMSSQL();
