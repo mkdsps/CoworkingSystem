@@ -17,8 +17,8 @@ namespace CoworkingSystem
 
             try
             {
-                TestMSSQL();
-                //TestMySQL();
+                //TestMSSQL();
+                TestMySQL();
 
                 ApplicationConfiguration.Initialize();
                 Application.Run(new Form1());
@@ -48,7 +48,7 @@ namespace CoworkingSystem
             using var conn = new MySqlConnection(connStr);
             conn.Open();
 
-            using var cmd = new MySqlCommand("select count(*) from Users", conn);
+            using var cmd = new MySqlCommand("select 1", conn);
             var result = cmd.ExecuteScalar();
 
             MessageBox.Show($"Rezultat: {result}");
