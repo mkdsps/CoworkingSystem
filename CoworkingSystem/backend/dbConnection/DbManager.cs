@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
+using System.Data.Common;
 
 namespace CoworkingSystem.backend.dbConnection
 {
@@ -12,8 +10,8 @@ namespace CoworkingSystem.backend.dbConnection
 
         private IDbConnectionFactory _connectionFactory;
         private IDatabaseAdapter _adapter;
-        public readonly string BrandName;
 
+        public readonly string BrandName;
 
         private DbManager()
         {
@@ -23,18 +21,20 @@ namespace CoworkingSystem.backend.dbConnection
             IzaberiTip(config.type, config.connectionString);
         }
 
-
         public static DbManager GetInstance()
         {
             if (_instance == null)
             {
                 lock (_lock)
                 {
-                    _instance ??= new DbManager(); // dodeljuje novu vrednost ako je jednako null (??=)
+                    _instance ??= new DbManager();
                 }
             }
             return _instance;
         }
+
+        internal DbConnection Connection => _connectionFactory.CreateConnection();
+        internal IDatabaseAdapter Adapter => _adapter;
 
         private void IzaberiTip(DbType type, string connectionString)
         {

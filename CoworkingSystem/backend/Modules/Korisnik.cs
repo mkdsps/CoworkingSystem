@@ -24,7 +24,7 @@ namespace CoworkingSystem.backend.Modules
 
         public string Status { get; set; }
 
-        public Guid? LokacijaId { get; set; }
+        public int? LokacijaId { get; set; }
 
         public string? Napomena { get; set; }
 
@@ -32,7 +32,7 @@ namespace CoworkingSystem.backend.Modules
 
         public Korisnik(int id, string ime, string prezime, string email, string? telefon,
                     int tipClanstvaId, DateTime datumPocetka, DateTime datumIsteka, string status,
-                    Guid? lokacijaId, string? napomena, DateTime datumRegistracije)
+                    int? lokacijaId, string? napomena, DateTime datumRegistracije)
         {
             Id = id;
             Ime = ime;

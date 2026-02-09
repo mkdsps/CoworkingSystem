@@ -8,16 +8,16 @@ namespace CoworkingSystem.backend.dbConnection
 {
     internal class MsSqlConnectionFactory : IDbConnectionFactory
     {
-        private readonly string _connectionString;
+        public readonly string connectionString;
 
         public MsSqlConnectionFactory(string connectionString)
         {
-            _connectionString = connectionString;
+            this.connectionString = connectionString;
         }
 
         public DbConnection CreateConnection()
         {
-            return new SqlConnection(_connectionString);
+            return new SqlConnection(connectionString);
         }
     }
 }

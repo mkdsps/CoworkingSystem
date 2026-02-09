@@ -48,13 +48,14 @@ namespace CoworkingSystem.backend
         {
             var s = cs.ToLowerInvariant();
 
+            // MSSQL indikatori
+            if (s.Contains("trustservercertificate") || s.Contains("trusted_connection") || s.Contains("initial catalog"))
+                return DbType.mssql;
+
             // gruba ali korisna heuristika
             if (s.Contains("uid=") || s.Contains("user id=") || s.Contains("port="))
                 return DbType.mysql;
 
-            // MSSQL indikatori
-            if (s.Contains("trustservercertificate") || s.Contains("trusted_connection") || s.Contains("initial catalog"))
-                return DbType.mssql;
 
             // fallback
             return DbType.mysql;
