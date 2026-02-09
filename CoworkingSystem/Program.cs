@@ -1,3 +1,4 @@
+using CoworkingSystem.backend.dbConnection;
 using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System;
@@ -10,23 +11,16 @@ namespace CoworkingSystem
         [STAThread]
         static void Main()
         {
-            // pravim neke promene
-            // pravim neke promene
-            // pravim neke promene
-            // pravim neke promene
+            DbManager manager = DbManager.GetInstance();
 
-            try
-            {
-                //TestMSSQL();
-                TestMySQL();
+            MessageBox.Show(
+                $"Aplikacija: {manager.BrandName}\nKonekcija uspešna!",
+                "Start"
+            );
 
-                ApplicationConfiguration.Initialize();
-                Application.Run(new Form1());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
+            
         }
 
         static void TestMSSQL()
@@ -41,9 +35,9 @@ namespace CoworkingSystem
             MessageBox.Show($"MSSQL rezultat: {result}");
         }
 
-        static void TestMySQL()
+        static void TestMySQL(string connStr)
         {
-            string connStr = "Server=localhost;Port=3306;Database=TestDb;User=root;Password=root123;";
+            //string connStr = "Server=localhost;Port=3306;Database=TestDb;User=root;Password=root123;";
 
             using var conn = new MySqlConnection(connStr);
             conn.Open();
