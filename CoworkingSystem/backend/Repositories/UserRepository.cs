@@ -16,6 +16,7 @@ namespace CoworkingSystem.backend.Repositories
 
         public void InsertUser() // odradi ako hoces da proveris adaptere
         {
+
         }
     }
 }
