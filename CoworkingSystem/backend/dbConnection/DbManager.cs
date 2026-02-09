@@ -10,7 +10,8 @@ namespace CoworkingSystem.backend.dbConnection
         private static DbManager? _instance;
         private static readonly object _lock = new object();
 
-        private readonly IDbConnectionFactory _connectionFactory;
+        private IDbConnectionFactory _connectionFactory;
+        private IDatabaseAdapter _adapter;
         public readonly string BrandName;
 
 
@@ -19,7 +20,7 @@ namespace CoworkingSystem.backend.dbConnection
             Config config = Config.getInstance();
             BrandName = config.name;
 
-            _connectionFactory = CreateFactory(config.type, config.connectionString);
+            IzaberiTip(config.type, config.connectionString);
         }
 
 
@@ -35,15 +36,22 @@ namespace CoworkingSystem.backend.dbConnection
             return _instance;
         }
 
-        private IDbConnectionFactory CreateFactory(DbType type, string connectionString)
+        private void IzaberiTip(DbType type, string connectionString)
         {
-            if (DbType.mysql == type)
-                return new MsSqlConnectionFactory(connectionString);
-
-            else if (DbType.mssql == type)
-                return new MySqlConnectionFactory(connectionString);
-
-            throw new ArgumentException($"Nepodrzan tip baze: {type}");
+            if (DbType.mssql == type)
+            {
+                _connectionFactory = new MsSqlConnectionFactory(connectionString);
+                _adapter = new MsSqlAdapter();
+            }
+            else if (DbType.mysql == type)
+            {
+                _connectionFactory = new MySqlConnectionFactory(connectionString);
+                _adapter = new MySqlAdapter();
+            }
+            else
+            {
+                throw new ArgumentException($"Nepodrzan tip baze: {type}");
+            }
         }
     }
 }

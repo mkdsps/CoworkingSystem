@@ -1,48 +1,46 @@
-﻿using MySqlConnector;
+﻿using Microsoft.Data.SqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CoworkingSystem.backend
 {
-    internal class MySQLAdapter : DatabaseAdapter
+    internal class MySqlAdapter : IDatabaseAdapter
     {
-        public MySQLAdapter() : base()
-        {
-        }
-
-        public override object CreateParameter(string name, object value)
-        {
-            return new MySqlParameter(name, value);
-        }
-
-        public override string GetLastInsertIdQuery()
+        public string GetLastInsertIdQuery()
         {
             return "SELECT LAST_INSERT_ID()";
         }
 
-        public override string GetCurrentDateTimeFunction()
+        public string GetCurrentDateTimeFunction()
         {
             return "NOW()";
         }
 
-        public override string GetAutoIncrementDefinition()
+        public string GetAutoIncrementDefinition()
         {
             return "AUTO_INCREMENT";
         }
 
-        public override string GetUid()
+        public bool GetBooleanValue(object dbValue)
         {
-            return "CHAR(36)";
+            return Convert.ToInt32(dbValue) == 1;
         }
 
-        public override bool GetBooleanValue(object dbValue)
+        public object CreateParameter(string name, object value)
         {
-            if (dbValue == null || dbValue == DBNull.Value)
-                return false;
+            if (value == null)
+            {
+                value = DBNull.Value;
+            }
 
-            // MySQL čuva boolean kao TINYINT(1) - 0 ili 1
-            return Convert.ToInt32(dbValue) == 1;
+            return new MySqlParameter(name, value);
+        }
+
+        public string GetLimitClause(int limit, int offset)
+        {
+            return $"LIMIT {limit} OFFSET {offset}";
         }
     }
 }

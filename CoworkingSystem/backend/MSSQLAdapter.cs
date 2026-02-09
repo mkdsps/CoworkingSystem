@@ -5,36 +5,41 @@ using System.Text;
 
 namespace CoworkingSystem.backend
 {
-    internal class MSSQLAdapter : DatabaseAdapter
+    internal class MsSqlAdapter : IDatabaseAdapter
     {
-        public MSSQLAdapter() : base()
+        public string GetLastInsertIdQuery()
         {
             return "SELECT SCOPE_IDENTITY()";
         }
 
-        public override string GetCurrentDateTimeFunction()
+        public string GetCurrentDateTimeFunction()
         {
             return "GETDATE()";
         }
 
-        public override string GetAutoIncrementDefinition()
+        public string GetAutoIncrementDefinition()
         {
             return "IDENTITY(1,1)";
         }
 
-        public override string GetUid()
+        public bool GetBooleanValue(object dbValue)
         {
-            return "UNIQUEIDENTIFIER";
-        }
-
-        public override bool GetBooleanValue(object dbValue)
-        {
-            if (dbValue == null || dbValue == DBNull.Value)
-                return false;
-
             return Convert.ToBoolean(dbValue);
         }
 
-        
+        public object CreateParameter(string name, object value)
+        {
+            if (value == null)
+            {
+                value = DBNull.Value;
+            }
+
+            return new SqlParameter(name, value);
+        }
+
+        public string GetLimitClause(int limit, int offset)
+        {
+            return $"OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
+        }
     }
 }
