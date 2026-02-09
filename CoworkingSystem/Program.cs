@@ -1,4 +1,4 @@
-using CoworkingSystem.backend;
+using CoworkingSystem.backend.dbConnection;
 using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System;
@@ -11,19 +11,12 @@ namespace CoworkingSystem
         [STAThread]
         static void Main()
         {
-            // pravim neke promene
-            // pravim neke promene
-            // pravim neke promene
-            // pravim neke promene
+            DbManager manager = DbManager.GetInstance();
 
-            //TestMSSQL();
-            //TestMySQL();
-
-            Config config = Config.getInstance();
-
-            //MessageBox.Show($"MSSQL rezultat: {config.connectionString}");
-
-            TestMySQL(config.connectionString);
+            MessageBox.Show(
+                $"Aplikacija: {manager.BrandName}\nKonekcija uspešna!",
+                "Start"
+            );
 
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
