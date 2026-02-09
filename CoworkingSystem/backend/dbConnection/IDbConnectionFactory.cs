@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CoworkingSystem.backend.dbConnection
 {
-    internal interface IDbConnectionFactory
+    public interface IDbConnectionFactory
     {
         DbConnection CreateConnection();
     }

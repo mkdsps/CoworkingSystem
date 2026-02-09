@@ -8,15 +8,15 @@ namespace CoworkingSystem.backend.dbConnection
 {
     internal class MySqlConnectionFactory : IDbConnectionFactory
     {
-        private readonly string _connectionString;
+        public readonly string connectionString;
         public MySqlConnectionFactory(string connectionString)
         {
-            _connectionString = connectionString;
+            this.connectionString = connectionString;
         }
 
         public DbConnection CreateConnection()
         {
-            return new MySqlConnection(_connectionString);
+            return new MySqlConnection(connectionString);
         }
     }
 }

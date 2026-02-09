@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CoworkingSystem.backend
 {
-    internal interface IDatabaseAdapter
+    public interface IDatabaseAdapter
     {
         string GetLastInsertIdQuery();
 
