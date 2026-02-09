@@ -44,7 +44,5 @@ namespace CoworkingSystem.backend
             // MySQL čuva boolean kao TINYINT(1) - 0 ili 1
             return Convert.ToInt32(dbValue) == 1;
         }
-
-        
     }
 }

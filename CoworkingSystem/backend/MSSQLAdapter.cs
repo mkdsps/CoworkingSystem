@@ -9,14 +9,6 @@ namespace CoworkingSystem.backend
     {
         public MSSQLAdapter() : base()
         {
-        }
-        public override object CreateParameter(string name, object value)
-        {
-            return new SqlParameter(name, value);
-        }
-
-        public override string GetLastInsertIdQuery()
-        {
             return "SELECT SCOPE_IDENTITY()";
         }
 
