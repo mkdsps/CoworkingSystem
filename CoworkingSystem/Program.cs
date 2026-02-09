@@ -1,3 +1,5 @@
+﻿using CoworkingSystem.backend;
+using CoworkingSystem.backend.dbConnection;
 using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System;
@@ -10,43 +12,46 @@ namespace CoworkingSystem
         [STAThread]
         static void Main()
         {
+            DbManager manager = DbManager.GetInstance();
+            Config config = Config.getInstance();
+
+            MessageBox.Show(
+                $"Brand={config.name}\nType={config.type}\nCS={config.connectionString}",
+                "CONFIG DEBUG"
+            );
+
+
             try
             {
-                TestMSSQL();
-                //TestMySQL();
+                var repo = new CoworkingSystem.backend.Repositories.SqlKorisnikRepo();
 
-                ApplicationConfiguration.Initialize();
-                Application.Run(new Form1());
+                var k = new CoworkingSystem.backend.Modules.Korisnik
+                {
+                    Ime = "Test",
+                    Prezime = "Korisnik",
+                    Email = $"test_{DateTime.Now:yyyyMMdd_HHmmss}@mail.com",
+                    Telefon = "060123456",
+                    TipClanstvaId = 1,
+                    DatumPocetka = DateTime.Now,
+                    DatumIsteka = DateTime.Now.AddDays(30),
+                    Status = "aktivan",
+                    LokacijaId = 1,
+                    Napomena = "insert test"
+                };
+
+                repo.InsertUser(k);
+
+                MessageBox.Show("INSERT je uspeo ✅", "DB TEST");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString(), "INSERT FAILED ❌");
             }
-        }
 
-        static void TestMSSQL()
-        {
-            string connStr = "Server=localhost,1433;Database=TestDb;User Id=sa;Password=YourStrong!Passw0rd123;TrustServerCertificate=True;";
-            using var conn = new SqlConnection(connStr);
-            conn.Open();
 
-            using var cmd = new SqlCommand("select count(*) from Users", conn);
-            var result = cmd.ExecuteScalar();
-
-            MessageBox.Show($"MSSQL rezultat: {result}");
-        }
-
-        static void TestMySQL()
-        {
-            string connStr = "Server=localhost;Port=3306;Database=TestDb;User=root;Password=root123;";
-
-            using var conn = new MySqlConnection(connStr);
-            conn.Open();
-
-            using var cmd = new MySqlCommand("select count(*) from Users", conn);
-            var result = cmd.ExecuteScalar();
-
-            MessageBox.Show($"Rezultat: {result}");
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
+            
         }
     }
 }

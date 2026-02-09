@@ -1,0 +1,2 @@
+Coworking
+Server=localhost,1433;Database=TestDb;User Id=sa;Password=YourStrong!Passw0rd123;TrustServerCertificate=True;
