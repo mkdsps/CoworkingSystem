@@ -12,6 +12,7 @@ namespace CoworkingSystem.backend
 
     internal sealed class Config
     {
+        //Cao ja sam Smilja
         // thread safe jer je inicijalizacija u statiku thread safe
         private static readonly Config _instance = new Config();
 
