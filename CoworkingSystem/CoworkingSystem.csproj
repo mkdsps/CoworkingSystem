@@ -31,4 +31,8 @@
     <None Include="C:\Users\IGY\source\repos\CoworkingSystem\CoworkingSystem\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="backend\Services\" />
+  </ItemGroup>
+
 </Project>
