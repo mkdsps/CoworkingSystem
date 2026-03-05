@@ -7,8 +7,9 @@ namespace CoworkingSystem.backend
 {
     internal interface IRepoFactory
     {
+        // dodaj za svaki tip repo-a
         public IKorisniciRepo CreateKorisniciRepo();
         public IRezervacijeRepo rezervacijeRepo();
-        // dodaj za svaki tip repo-a
+        public ILokacijeRepo CreateLokacijeRepo();
     }
 }

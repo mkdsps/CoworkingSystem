@@ -21,7 +21,7 @@ namespace CoworkingSystem
                 "CONFIG DEBUG"
             );
 
-            Igor.Run();
+            Andra.Run();
 
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
