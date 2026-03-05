@@ -12,6 +12,11 @@ namespace CoworkingSystem.backend
             throw new NotImplementedException();
         }
 
+        public ILokacijeRepo CreateLokacijeRepo()
+        {
+            return new SqlLokacijaRepo();
+        }
+
         public IRezervacijeRepo rezervacijeRepo()
         {
             throw new NotImplementedException();
