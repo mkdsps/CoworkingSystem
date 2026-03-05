@@ -10,13 +10,24 @@ namespace CoworkingSystem.backend.Runners
 {
     internal class Andra
     {
+        
         public static void Run()
         {
             try
             {
-
                 SqlRepoFactory repo = new SqlRepoFactory();
                 var service = new LokacijaService(repo.CreateLokacijeRepo());
+                var loginService = new AdminService(repo.createAdminRepo());
+                var log = loginService.Validate("andrija", "admin123");
+                if(log)
+                {
+                    MessageBox.Show("USPESNO");
+                }
+                else
+                {
+                    MessageBox.Show("NIJE");
+                }
+
                 var all = service.GetLokacijeSaStatistikom();
 
                 var activeOnly = service.GetLokacijeSaStatistikom(onlyActiveLocations: true);
