@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace CoworkingSystem.backend.Modules
-{
+{   
     internal class Korisnik
     {
         public int Id { get; set; }
@@ -49,5 +49,10 @@ namespace CoworkingSystem.backend.Modules
         }
 
         public Korisnik() { }
+
+        public override string ToString()
+        {
+            return $"{Id} | {Ime} {Prezime} | {Email} | {Status}";
+        }
     }
 }
