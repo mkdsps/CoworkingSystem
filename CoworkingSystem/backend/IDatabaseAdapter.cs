@@ -6,6 +6,7 @@ namespace CoworkingSystem.backend
 {
     public interface IDatabaseAdapter
     {
+        // Komentar
         string GetLastInsertIdQuery();
 
         string GetCurrentDateTimeFunction();
