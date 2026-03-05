@@ -1,5 +1,6 @@
 ﻿using CoworkingSystem.backend.Modules;
 using CoworkingSystem.backend.Repositories;
+using CoworkingSystem.backend.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,11 +16,12 @@ namespace CoworkingSystem.backend.Runners
                 var repo = new SqlKorisnikRepo();
                 var k = new Korisnik
                 {
-                    Ime = "Igor",
-                    Prezime = "Test",
+                    Id = 2,
+                    Ime = "Neko",
+                    Prezime = "Nekic",
                     Email = $"igor_{DateTime.Now:yyyyMMdd_HHmmss}@mail.com",
-                    Telefon = "060000000",
-                    TipClanstvaId = 1,
+                    Telefon = "123454",
+                    TipClanstvaId = 2,
                     DatumPocetka = DateTime.Now,
                     DatumIsteka = DateTime.Now.AddDays(30),
                     Status = "aktivan",
@@ -27,8 +29,18 @@ namespace CoworkingSystem.backend.Runners
                     Napomena = "igor insert"
                 };
 
-                repo.InsertUser(k);
-                MessageBox.Show("IGOR INSERT OK");
+                KorisnikService ks = new KorisnikService(repo);
+
+
+                KorisnikFilter kf = new KorisnikFilter();
+                kf.TipClanstvaId = 2;
+                kf.LokacijaId = 1;
+
+                foreach(var kor in ks.GetUsers(kf))
+                    MessageBox.Show($"{kor}");
+
+                ks.DeleteUser(10);
+
             }
             catch (Exception ex)
             {

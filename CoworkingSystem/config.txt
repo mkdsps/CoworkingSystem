@@ -1,2 +1,2 @@
 Coworking
-Server=localhost,1433;Database=TestDb;User Id=sa;Password=YourStrong!Passw0rd123;TrustServerCertificate=True;
+Server=localhost;Port=3306;Database=TestDb;Uid=root;Pwd=root123;
