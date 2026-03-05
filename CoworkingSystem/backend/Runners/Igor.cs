@@ -36,7 +36,7 @@ namespace CoworkingSystem.backend.Runners
                 kf.TipClanstvaId = 2;
                 kf.LokacijaId = 1;
 
-                foreach(var kor in ks.GetUsers(kf))
+                foreach (var kor in ks.GetUsers(kf))
                     MessageBox.Show($"{kor}");
 
                 ks.DeleteUser(10);
