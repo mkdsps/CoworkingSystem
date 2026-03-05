@@ -77,6 +77,7 @@
             pswTxt.Name = "pswTxt";
             pswTxt.Size = new Size(172, 23);
             pswTxt.TabIndex = 4;
+            pswTxt.UseSystemPasswordChar = true;
             // 
             // greskaLbl
             // 
@@ -101,6 +102,7 @@
             Controls.Add(lgnBtn);
             Name = "LoginForma";
             Text = "LoginForma";
+            Load += LoginForma_Load;
             ResumeLayout(false);
             PerformLayout();
         }

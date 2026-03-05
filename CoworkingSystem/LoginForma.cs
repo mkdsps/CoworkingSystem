@@ -1,4 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Azure.Core.Extensions;
+using CoworkingSystem.backend;
+using CoworkingSystem.backend.Repositories;
+using CoworkingSystem.backend.Services;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,15 +22,15 @@ namespace CoworkingSystem
 
         private void lgnBtn_Click(object sender, EventArgs e)
         {
+            IRepoFactory repo = new SqlRepoFactory();
+
             string username = usrTxt.Text.Trim();
             string password = pswTxt.Text;
 
-            //var auth = new AuthService();
-            //bool ok = auth.Login(username, password);
+            AdminService auth = new AdminService(repo.createAdminRepo());
 
-
-            if (false
-                )
+            bool ok = auth.Validate(username, password);
+            if (!ok)
             {
                 greskaLbl.Text = "Pogrešan username ili lozinka.";
                 return;
@@ -39,6 +43,11 @@ namespace CoworkingSystem
             main.Show();
 
             this.Hide();
+        }
+
+        private void LoginForma_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
