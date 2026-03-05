@@ -22,10 +22,11 @@ namespace CoworkingSystem
                 "CONFIG DEBUG"
             );
 
-            Andra.Run();
+            //Andra.Run();
+            Igor.Run();
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new LoginForma());
             
         }
     }
