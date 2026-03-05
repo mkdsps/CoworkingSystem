@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace CoworkingSystem
 {
+
     internal static class Program
     {
         [STAThread]
