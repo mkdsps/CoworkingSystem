@@ -22,12 +22,13 @@ namespace CoworkingSystem
                 "CONFIG DEBUG"
             );
 
+
             //Andra.Run();
-            Igor.Run();
-            
+            //Igor.Run();
+
             //Milica.Run();
             //Lazar.Run();
-            //Smilja.Run();
+            Smilja.Run();
 
             ApplicationConfiguration.Initialize();
             Application.Run(new LoginForma());
