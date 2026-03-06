@@ -47,5 +47,20 @@ namespace CoworkingSystem.backend
         {
             return $"TIMESTAMPDIFF(HOUR, {start}, {end})";
         }
+
+        public string GetTimePartExpression(string expression)
+        {
+            return $"TIME({expression})";
+        }
+
+        public string GetRadnoVremeStartExpression(string columnName)
+        {
+            return $"STR_TO_DATE(SUBSTRING({columnName}, 1, 5), '%H:%i')";
+        }
+
+        public string GetRadnoVremeEndExpression(string columnName)
+        {
+            return $"STR_TO_DATE(SUBSTRING({columnName}, 7, 5), '%H:%i')";
+        }
     }
 }
