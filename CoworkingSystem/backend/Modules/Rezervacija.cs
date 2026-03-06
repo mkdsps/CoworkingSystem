@@ -12,6 +12,8 @@ namespace CoworkingSystem.backend.Modules
 
         public int ResursId { get; set; }
 
+        public int LokacijaId { get; set; }
+
         public DateTime DatumVremePocetka { get; set; }
 
         public DateTime DatumVremeZavrsetka { get; set; }
