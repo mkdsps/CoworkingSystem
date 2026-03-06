@@ -16,5 +16,6 @@ namespace CoworkingSystem.backend.Repositories
         public List<Korisnik> Get(KorisnikFilter filter);
 
         public Korisnik GetByID(int id);
+
     }
 }

@@ -21,5 +21,7 @@ namespace CoworkingSystem.backend.Repositories
         public bool DaLiKorisnikMozeRezervisati(int korisnikId, DateTime pocetak, DateTime kraj);
 
         public bool DaLiJeURadnomVremenuLokacije(int lokacijaId, DateTime pocetak, DateTime kraj);
+
+        public int GetLokacijaIdByResursId(int resursId);
     }
 }
