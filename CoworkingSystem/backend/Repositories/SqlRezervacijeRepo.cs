@@ -266,12 +266,12 @@ namespace CoworkingSystem.backend.Repositories
             using var conn = _dbManager.Connection;
             conn.Open();
 
-            int ukupnoSatiUTomMesecu;
+            double ukupnoSatiUTomMesecu = 0;
 
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = $@"
-            SELECT COALESCE(SUM({_dbManager.Adapter.GetTimeDifferenceInHours("DatumVremePocetka", "DatumVremeZavrsetka")}),0)
+            SELECT COALESCE(SUM({_dbManager.Adapter.GetTimeDifferenceInHours("DatumVremePocetka", "DatumVremeZavrsetka")}), 0)
             FROM Rezervacije
             WHERE KorisnikId = @IDKorisnika
               AND Status <> 'Otkazana'
@@ -286,10 +286,10 @@ namespace CoworkingSystem.backend.Repositories
 
                 ukupnoSatiUTomMesecu = (result == null || result == DBNull.Value)
                     ? 0
-                    : Convert.ToInt32(result);
+                    : Convert.ToDouble(result);
             }
 
-            int satiNoveRezervacije = (int)Math.Ceiling((kraj - pocetak).TotalHours);
+            double satiNoveRezervacije = (kraj - pocetak).TotalHours;
 
             using (var cmd = conn.CreateCommand())
             {
@@ -308,32 +308,36 @@ namespace CoworkingSystem.backend.Repositories
                     return false;
 
                 if (result == DBNull.Value)
-                    return true;
+                    return true; // ovo ostavi samo ako NULL znači "neograničeno"
 
-                int maksimalnoSatiMesecno = Convert.ToInt32(result);
+                double maksimalnoSatiMesecno = Convert.ToDouble(result);
 
                 return (ukupnoSatiUTomMesecu + satiNoveRezervacije) <= maksimalnoSatiMesecno;
             }
         }
-        
 
-        public bool DaLiJeURadnomVremenuLokacije(int resursId, DateTime pocetak, DateTime kraj)
+
+        public bool DaLiJeURadnomVremenuLokacije(int lokacijaId, DateTime pocetak, DateTime kraj)
         {
             using var conn = _dbManager.Connection;
             conn.Open();
 
             using var cmd = conn.CreateCommand();
-            cmd.CommandText = @"
-                SELECT 1
-                FROM Resursi r
-                INNER JOIN Lokacije l ON l.Id = r.LokacijaId
-                WHERE r.Id = @IDResursa
-                  AND TIME(@DatumVremePocetka) >= STR_TO_DATE(SUBSTRING(l.RadnoVreme, 1, 5), '%H:%i')
-                  AND TIME(@DatumVremeZavrsetka) <= STR_TO_DATE(SUBSTRING(l.RadnoVreme, 7, 5), '%H:%i')
-                LIMIT 1;
-            ";
 
-            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@IDResursa", resursId));
+            string vremePocetka = _dbManager.Adapter.GetTimePartExpression("@DatumVremePocetka");
+            string vremeZavrsetka = _dbManager.Adapter.GetTimePartExpression("@DatumVremeZavrsetka");
+            string radnoVremePocetak = _dbManager.Adapter.GetRadnoVremeStartExpression("l.RadnoVreme");
+            string radnoVremeKraj = _dbManager.Adapter.GetRadnoVremeEndExpression("l.RadnoVreme");
+
+            cmd.CommandText = $@"
+        SELECT 1
+        FROM Lokacije l
+        WHERE l.Id = @LokacijaId
+          AND {vremePocetka} >= {radnoVremePocetak}
+          AND {vremeZavrsetka} <= {radnoVremeKraj};
+    ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@LokacijaId", lokacijaId));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@DatumVremePocetka", pocetak));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@DatumVremeZavrsetka", kraj));
 

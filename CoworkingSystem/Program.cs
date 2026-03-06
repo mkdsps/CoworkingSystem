@@ -22,8 +22,8 @@ namespace CoworkingSystem
                 "CONFIG DEBUG"
             );
 
-            //Andra.Run();
-            Igor.Run();
+            Andra.Run();
+            //Igor.Run();
             
             //Milica.Run();
             //Lazar.Run();
