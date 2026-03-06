@@ -257,31 +257,36 @@ namespace CoworkingSystem.backend.Repositories
 
         public bool DaLiKorisnikMozeRezervisati(int korisnikId, DateTime pocetak, DateTime kraj)
         {
+            if (korisnikId <= 0)
+                return false;
+
+            if (pocetak >= kraj)
+                return false;
+
             using var conn = _dbManager.Connection;
             conn.Open();
 
-            int ukupnoSatiUTomMesecu = 0;
+            int ukupnoSatiUTomMesecu;
 
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = @"
-                        SELECT SUM(DATEDIFF(HOUR, DatumVremePocetka, DatumVremeZavrsetka)) AS UkupnoSati
-                        FROM Rezervacije
-                        WHERE KorisnikId = @IDKorisnika
-                          AND Status <> 'Otkazana'
-                          AND YEAR(DatumVremePocetka) = YEAR(@Datum)
-                          AND MONTH(DatumVremePocetka) = MONTH(@Datum);
-                    ";
+                cmd.CommandText = $@"
+            SELECT COALESCE(SUM({_dbManager.Adapter.GetTimeDifferenceInHours("DatumVremePocetka", "DatumVremeZavrsetka")}),0)
+            FROM Rezervacije
+            WHERE KorisnikId = @IDKorisnika
+              AND Status <> 'Otkazana'
+              AND YEAR(DatumVremePocetka) = YEAR(@Datum)
+              AND MONTH(DatumVremePocetka) = MONTH(@Datum);
+        ";
 
                 cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@IDKorisnika", korisnikId));
                 cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@Datum", pocetak));
 
                 object result = cmd.ExecuteScalar();
 
-                if (result != null && result != DBNull.Value)
-                {
-                    ukupnoSatiUTomMesecu = Convert.ToInt32(result);
-                }
+                ukupnoSatiUTomMesecu = (result == null || result == DBNull.Value)
+                    ? 0
+                    : Convert.ToInt32(result);
             }
 
             int satiNoveRezervacije = (int)Math.Ceiling((kraj - pocetak).TotalHours);
@@ -289,11 +294,11 @@ namespace CoworkingSystem.backend.Repositories
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"
-                        SELECT tc.MaksimalnoSatiMesecno
-                        FROM Korisnici k
-                        INNER JOIN TipoviClanstva tc ON k.TipClanstvaId = tc.Id
-                        WHERE k.Id = @IDKorisnika;
-                    ";
+            SELECT tc.MaksimalnoSatiMesecno
+            FROM Korisnici k
+            INNER JOIN TipoviClanstva tc ON k.TipClanstvaId = tc.Id
+            WHERE k.Id = @IDKorisnika;
+        ";
 
                 cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@IDKorisnika", korisnikId));
 
@@ -310,6 +315,7 @@ namespace CoworkingSystem.backend.Repositories
                 return (ukupnoSatiUTomMesecu + satiNoveRezervacije) <= maksimalnoSatiMesecno;
             }
         }
+        
 
         public bool DaLiJeURadnomVremenuLokacije(int resursId, DateTime pocetak, DateTime kraj)
         {
@@ -318,13 +324,14 @@ namespace CoworkingSystem.backend.Repositories
 
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-                    SELECT 1
-                    FROM Resursi r
-                    INNER JOIN Lokacije l ON l.Id = r.LokacijaId
-                    WHERE r.Id = @IDResursa
-                      AND CAST(@DatumVremePocetka AS TIME) >= l.VremeOtvaranja
-                      AND CAST(@DatumVremeZavrsetka AS TIME) <= l.VremeZatvaranja;
-                ";
+                SELECT 1
+                FROM Resursi r
+                INNER JOIN Lokacije l ON l.Id = r.LokacijaId
+                WHERE r.Id = @IDResursa
+                  AND TIME(@DatumVremePocetka) >= STR_TO_DATE(SUBSTRING(l.RadnoVreme, 1, 5), '%H:%i')
+                  AND TIME(@DatumVremeZavrsetka) <= STR_TO_DATE(SUBSTRING(l.RadnoVreme, 7, 5), '%H:%i')
+                LIMIT 1;
+            ";
 
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@IDResursa", resursId));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@DatumVremePocetka", pocetak));

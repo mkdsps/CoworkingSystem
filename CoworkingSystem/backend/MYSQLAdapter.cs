@@ -42,5 +42,10 @@ namespace CoworkingSystem.backend
         {
             return $"LIMIT {limit} OFFSET {offset}";
         }
+
+        public string GetTimeDifferenceInHours(string start, string end)
+        {
+            return $"TIMESTAMPDIFF(HOUR, {start}, {end})";
+        }
     }
 }

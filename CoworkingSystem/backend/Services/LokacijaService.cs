@@ -85,7 +85,7 @@ namespace CoworkingSystem.backend.Services
         }
 
         private static void Validate(string naziv, string adresa, string grad, string radnoVreme,
-                                     int maksimalanBrojKorisnika, string? opis)
+                             int maksimalanBrojKorisnika, string? opis)
         {
             if (string.IsNullOrWhiteSpace(naziv))
                 throw new ArgumentException("Naziv lokacije je obavezan.");
@@ -106,6 +106,21 @@ namespace CoworkingSystem.backend.Services
                 throw new ArgumentException("Radno vreme je obavezno.");
             if (radnoVreme.Trim().Length > 50)
                 throw new ArgumentException("Radno vreme može imati najviše 50 karaktera.");
+
+            string rv = radnoVreme.Trim();
+            string[] delovi = rv.Split('-');
+
+            if (delovi.Length != 2)
+                throw new ArgumentException("Radno vreme mora biti u formatu HH:mm-HH:mm.");
+
+            if (!TimeSpan.TryParse(delovi[0], out TimeSpan otvaranje))
+                throw new ArgumentException("Vreme otvaranja nije ispravno. Format mora biti HH:mm.");
+
+            if (!TimeSpan.TryParse(delovi[1], out TimeSpan zatvaranje))
+                throw new ArgumentException("Vreme zatvaranja nije ispravno. Format mora biti HH:mm.");
+
+            if (otvaranje >= zatvaranje)
+                throw new ArgumentException("Vreme otvaranja mora biti pre vremena zatvaranja.");
 
             if (maksimalanBrojKorisnika <= 0)
                 throw new ArgumentException("Maksimalan broj korisnika mora biti veći od 0.");

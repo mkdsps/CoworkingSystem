@@ -91,7 +91,7 @@ namespace CoworkingSystem.backend.Services
             if (!repo.IsResursDostupan(rezervacija.ResursId, rezervacija.DatumVremePocetka, rezervacija.DatumVremeZavrsetka))
                 throw new Exception("Resurs nije dostupan u izabranom terminu.");
 
-            if (repo.DaLiKorisnikMozeRezervisati(rezervacija.KorisnikId, rezervacija.DatumVremePocetka, rezervacija.DatumVremeZavrsetka))
+            if (!repo.DaLiKorisnikMozeRezervisati(rezervacija.KorisnikId, rezervacija.DatumVremePocetka, rezervacija.DatumVremeZavrsetka))
                 throw new Exception("Prekoracen broj sati u mesecu");
         
         }
