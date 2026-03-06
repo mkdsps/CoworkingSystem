@@ -28,7 +28,7 @@ namespace CoworkingSystem
 
             //Milica.Run();
             //Lazar.Run();
-            //Smilja.Run();
+            Smilja.Run();
 
             ApplicationConfiguration.Initialize();
             Application.Run(new LoginForma());

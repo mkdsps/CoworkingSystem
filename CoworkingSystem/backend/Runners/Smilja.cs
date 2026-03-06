@@ -22,7 +22,7 @@ namespace CoworkingSystem.backend.Runners
                 {
                     // Id ne moraš da setuješ ako je auto-increment u bazi
                     Naziv = "Dnevni paket",
-                    Cena = 1500m,
+                    Cena = 1500,
                     TrajanjeDana = 1,
                     MaksimalnoSatiMesecno = 10,
                     DozvolaSale = false,
