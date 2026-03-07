@@ -86,7 +86,28 @@ namespace CoworkingSystem.backend.Repositories
 
         public List<Resurs> GetAllRadnaMesta()
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "RadnoMesto"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
         }
 
         public List<Resurs> GetRadnaMestaByLokacija(int lokacijaId)
@@ -119,7 +140,29 @@ namespace CoworkingSystem.backend.Repositories
 
         public List<Resurs> GetAllSale()
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "Sala"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+
         }
 
         public List<Resurs> GetSaleByLokacija(int lokacijaId)

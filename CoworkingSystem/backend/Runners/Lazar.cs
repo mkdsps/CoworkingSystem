@@ -47,6 +47,20 @@ namespace CoworkingSystem.backend.Runners
                 {
                     System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
                 }
+
+                var svaRadnaMesta = repo.GetAllRadnaMesta();
+                System.Diagnostics.Debug.WriteLine("=== Sva radna mesta ===");
+                foreach (var r in svaRadnaMesta)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
+                }
+
+                var sveSale = repo.GetAllSale();
+                System.Diagnostics.Debug.WriteLine("=== Sve sale ===");
+                foreach (var r in sveSale)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
+                }
             }
             catch (Exception ex)
             {
