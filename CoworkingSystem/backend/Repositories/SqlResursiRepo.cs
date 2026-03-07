@@ -101,7 +101,18 @@ namespace CoworkingSystem.backend.Repositories
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                DELETE FROM Resursi
+                WHERE Id = @id;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@id", id));
+
+            cmd.ExecuteNonQuery();
         }
 
         public List<Resurs> GetAll()
