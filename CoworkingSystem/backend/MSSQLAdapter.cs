@@ -41,5 +41,25 @@ namespace CoworkingSystem.backend
         {
             return $"OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
         }
+
+        public string GetTimeDifferenceInHours(string start, string end)
+        {
+            return $"DATEDIFF(HOUR, {start}, {end})";
+        }
+
+        public string GetTimePartExpression(string expression)
+        {
+            return $"CAST({expression} AS TIME)";
+        }
+
+        public string GetRadnoVremeStartExpression(string columnName)
+        {
+            return $"CAST(SUBSTRING({columnName}, 1, 5) AS TIME)";
+        }
+
+        public string GetRadnoVremeEndExpression(string columnName)
+        {
+            return $"CAST(SUBSTRING({columnName}, 7, 5) AS TIME)";
+        }
     }
 }

@@ -23,9 +23,9 @@ namespace CoworkingSystem.backend
             return new SqlLokacijaRepo();
         }
 
-        public IRezervacijeRepo rezervacijeRepo()
+        public IRezervacijeRepo createRezervacijeRepo()
         {
-            throw new NotImplementedException();
+            return new SqlRezervacijeRepo();
         }
 
         public IResursiRepo CreateResursiRepo()
