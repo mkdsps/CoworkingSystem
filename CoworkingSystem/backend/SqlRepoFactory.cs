@@ -28,5 +28,9 @@ namespace CoworkingSystem.backend
             throw new NotImplementedException();
         }
 
+        public IResursiRepo CreateResursiRepo()
+        {
+            return new SqlResursiRepo();
+        }
     }
 }
