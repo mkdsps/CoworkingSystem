@@ -14,23 +14,18 @@ namespace CoworkingSystem.backend.Runners
         {
             try
             {
-                Debug.WriteLine("=== TEST RADNO MESTO SERVICE ===");
+                Debug.WriteLine("=== TEST SALA SERVICE ===");
 
                 IResursiRepo repo = new SqlResursiRepo();
-                RadnoMestoService service = new RadnoMestoService(repo);
+                SalaService service = new SalaService(repo);
 
-                List<Resurs> svaRadnaMesta = service.GetAllRadnaMesta();
-                Debug.WriteLine($"Ukupno radnih mesta: {svaRadnaMesta.Count}");
+                
+                List<Resurs> sveSale = service.GetAllSale();
+                Debug.WriteLine($"Ukupno sala: {sveSale.Count}");
 
-                List<Resurs> radnaMestaNaLokaciji = service.GetRadnaMestaByLokacija(2);
-                Debug.WriteLine($"Radna mesta na lokaciji 1: {radnaMestaNaLokaciji.Count}");
-
-                foreach (var rm in radnaMestaNaLokaciji)
-                {
-                    Debug.WriteLine($"Radno mesto ID: {rm.Id}, Oznaka: {rm.Oznaka}, Aktivan: {rm.Aktivan}");
-                }
-
-                Debug.WriteLine("=== KRAJ TESTA RADNO MESTO SERVICE ===");
+                List<Resurs> saleNaLokaciji = service.GetSaleByLokacija(1);
+                Debug.WriteLine($"Sale na lokaciji 1: {saleNaLokaciji.Count}");
+                
             }
             catch (Exception ex)
             {
