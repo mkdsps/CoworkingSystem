@@ -27,14 +27,26 @@ namespace CoworkingSystem.backend.Runners
                 Resurs? resurs = repo.GetById(10);
                 if (resurs != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Resurs sa ID 7: {resurs.Oznaka} {resurs.TipResursa}");
+                    System.Diagnostics.Debug.WriteLine($"Resurs sa ID 10: {resurs.Oznaka} {resurs.TipResursa}");
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("Resurs sa ID 7 nije pronađen.");
+                    System.Diagnostics.Debug.WriteLine("Resurs sa ID 10 nije pronađen.");
                 }
 
-                //Console.WriteLine("=== KRAJ TESTA ===");                
+                var radnaMesta = repo.GetRadnaMestaByLokacija(1);
+                System.Diagnostics.Debug.WriteLine("=== Radna mesta na lokaciji 1 ===");
+                foreach (var r in radnaMesta)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
+                }
+
+                var sale = repo.GetSaleByLokacija(2);
+                System.Diagnostics.Debug.WriteLine("=== Sale na lokaciji 2 ===");
+                foreach (var r in sale)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
+                }
             }
             catch (Exception ex)
             {

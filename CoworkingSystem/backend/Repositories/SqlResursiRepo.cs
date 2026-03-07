@@ -91,7 +91,30 @@ namespace CoworkingSystem.backend.Repositories
 
         public List<Resurs> GetRadnaMestaByLokacija(int lokacijaId)
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE LokacijaId = @lokacijaId
+                  AND TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "RadnoMesto"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
         }
 
         public List<Resurs> GetAllSale()
@@ -101,7 +124,30 @@ namespace CoworkingSystem.backend.Repositories
 
         public List<Resurs> GetSaleByLokacija(int lokacijaId)
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE LokacijaId = @lokacijaId
+                  AND TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "Sala"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
         }
 
         public void SetActive(int id, bool active)
