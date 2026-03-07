@@ -92,6 +92,14 @@ namespace CoworkingSystem.backend.Runners
                 {
                     System.Diagnostics.Debug.WriteLine($"{dodat.Id} {dodat.Oznaka} {dodat.TipResursa}");
                 }
+
+                Resurs? zaIzmenu = repo.GetById(noviId);
+                if (zaIzmenu != null)
+                {
+                    zaIzmenu.Oznaka = "RM-TEST-IZMENJEN";
+                    zaIzmenu.Opis = "Izmenjen opis";
+                    repo.Update(zaIzmenu);
+                }
             }
             catch (Exception ex)
             {
