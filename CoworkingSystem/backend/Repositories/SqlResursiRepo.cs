@@ -18,7 +18,42 @@ namespace CoworkingSystem.backend.Repositories
 
         public int Insert(Resurs resurs)
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = $@"
+                INSERT INTO Resursi
+                (
+                    LokacijaId, Oznaka, TipResursa, Opis, Aktivan, PodtipStola, Kapacitet, ImaProjektor, ImaTV, ImaTablu, ImaOnlineOpremu, BrojRadnihMesta, Povrsina, DatumKreiranja
+                )
+                VALUES
+                ( 
+                    @lokacijaId, @oznaka, @tipResursa, @opis, @aktivan, @podtipStola, @kapacitet, @imaProjektor, @imaTV, @imaTablu, @imaOnlineOpremu, @brojRadnihMesta, @povrsina, {_dbManager.Adapter.GetCurrentDateTimeFunction()}
+                );";
+        
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", resurs.LokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@oznaka", resurs.Oznaka));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", resurs.TipResursa));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@opis", (object?)resurs.Opis ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@aktivan", resurs.Aktivan));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@podtipStola", (object?)resurs.PodtipStola ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@kapacitet", (object?)resurs.Kapacitet ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaProjektor", (object?)resurs.ImaProjektor ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaTV", (object?)resurs.ImaTV ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaTablu", (object?)resurs.ImaTablu ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaOnlineOpremu", (object?)resurs.ImaOnlineOpremu ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@brojRadnihMesta", (object?)resurs.BrojRadnihMesta ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@povrsina", (object?)resurs.Povrsina ?? DBNull.Value));
+
+            cmd.ExecuteNonQuery();
+
+            using var idCmd = conn.CreateCommand();
+            idCmd.CommandText = _dbManager.Adapter.GetLastInsertIdQuery();
+
+            object result = idCmd.ExecuteScalar()!;
+            return Convert.ToInt32(result);
         }
 
         public void Update(Resurs resurs)

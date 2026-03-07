@@ -71,8 +71,27 @@ namespace CoworkingSystem.backend.Runners
 
                 repo.SetActive(8, false);
 
-                var osmi = repo.GetById(8);
+                var osmi = repo.GetById(8)!;
                 System.Diagnostics.Debug.WriteLine($"Aktivan status: {osmi.Aktivan}");
+
+                Resurs novi = new Resurs();
+                novi.LokacijaId = 1;
+                novi.Oznaka = "RM-TEST-1";
+                novi.TipResursa = "RadnoMesto";
+                novi.Opis = "Test radno mesto";
+                novi.Aktivan = true;
+                novi.PodtipStola = "FleksibilniSto";
+                novi.BrojRadnihMesta = 0;
+
+                int noviId = repo.Insert(novi);
+
+                System.Diagnostics.Debug.WriteLine($"Novi ID: {noviId}");
+
+                Resurs? dodat = repo.GetById(noviId);
+                if (dodat != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{dodat.Id} {dodat.Oznaka} {dodat.TipResursa}");
+                }
             }
             catch (Exception ex)
             {
