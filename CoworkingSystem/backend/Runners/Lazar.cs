@@ -3,6 +3,7 @@ using CoworkingSystem.backend.Repositories;
 using CoworkingSystem.backend.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace CoworkingSystem.backend.Runners
@@ -13,70 +14,23 @@ namespace CoworkingSystem.backend.Runners
         {
             try
             {
-                var repo = new SqlResursiRepo();
+                Debug.WriteLine("=== TEST RADNO MESTO SERVICE ===");
 
-                List<Resurs> resursi = repo.GetAll();
+                IResursiRepo repo = new SqlResursiRepo();
+                RadnoMestoService service = new RadnoMestoService(repo);
 
-                System.Diagnostics.Debug.WriteLine($"Ukupno resursa: {resursi.Count}");
+                List<Resurs> svaRadnaMesta = service.GetAllRadnaMesta();
+                Debug.WriteLine($"Ukupno radnih mesta: {svaRadnaMesta.Count}");
 
-                foreach (Resurs r in resursi)
+                List<Resurs> radnaMestaNaLokaciji = service.GetRadnaMestaByLokacija(2);
+                Debug.WriteLine($"Radna mesta na lokaciji 1: {radnaMestaNaLokaciji.Count}");
+
+                foreach (var rm in radnaMestaNaLokaciji)
                 {
-                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
+                    Debug.WriteLine($"Radno mesto ID: {rm.Id}, Oznaka: {rm.Oznaka}, Aktivan: {rm.Aktivan}");
                 }
 
-                Resurs? resurs = repo.GetById(10);
-                if (resurs != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Resurs sa ID 10: {resurs.Oznaka} {resurs.TipResursa}");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("Resurs sa ID 10 nije pronađen.");
-                }
-
-                var radnaMesta = repo.GetRadnaMestaByLokacija(1);
-                System.Diagnostics.Debug.WriteLine("=== Radna mesta na lokaciji 1 ===");
-                foreach (var r in radnaMesta)
-                {
-                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
-                }
-
-                var sale = repo.GetSaleByLokacija(2);
-                System.Diagnostics.Debug.WriteLine("=== Sale na lokaciji 2 ===");
-                foreach (var r in sale)
-                {
-                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
-                }
-
-                var svaRadnaMesta = repo.GetAllRadnaMesta();
-                System.Diagnostics.Debug.WriteLine("=== Sva radna mesta ===");
-                foreach (var r in svaRadnaMesta)
-                {
-                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
-                }
-
-                var sveSale = repo.GetAllSale();
-                System.Diagnostics.Debug.WriteLine("=== Sve sale ===");
-                foreach (var r in sveSale)
-                {
-                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
-                }
-
-                var lokacija1 = repo.GetByLokacija(2);
-                System.Diagnostics.Debug.WriteLine("=== Sve na lokaciji 2 ===");
-                foreach (var r in lokacija1)
-                {
-                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
-                }
-
-                repo.SetActive(8, false);
-
-                var osmi = repo.GetById(8)!;
-                System.Diagnostics.Debug.WriteLine($"Aktivan status: {osmi.Aktivan}");
-
-                repo.Delete(16);
-                var obrisan = repo.GetById(16);
-                System.Diagnostics.Debug.WriteLine(obrisan == null ? "Uspesno obrisan" : "Nije obrisan");
+                Debug.WriteLine("=== KRAJ TESTA RADNO MESTO SERVICE ===");
             }
             catch (Exception ex)
             {
