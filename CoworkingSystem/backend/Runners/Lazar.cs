@@ -61,6 +61,18 @@ namespace CoworkingSystem.backend.Runners
                 {
                     System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
                 }
+
+                var lokacija1 = repo.GetByLokacija(2);
+                System.Diagnostics.Debug.WriteLine("=== Sve na lokaciji 2 ===");
+                foreach (var r in lokacija1)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{r.Id} {r.Oznaka} {r.TipResursa}");
+                }
+
+                repo.SetActive(8, false);
+
+                var osmi = repo.GetById(8);
+                System.Diagnostics.Debug.WriteLine($"Aktivan status: {osmi.Aktivan}");
             }
             catch (Exception ex)
             {

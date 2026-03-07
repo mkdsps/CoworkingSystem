@@ -218,7 +218,25 @@ namespace CoworkingSystem.backend.Repositories
 
         public void SetActive(int id, bool active)
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                UPDATE Resursi
+                SET Aktivan = @aktivan
+                WHERE Id = @id;
+                ";
+
+            cmd.Parameters.Add(
+                _dbManager.Adapter.CreateParameter("@aktivan", active)
+            );
+
+            cmd.Parameters.Add(
+                _dbManager.Adapter.CreateParameter("@id", id)
+            );
+
+            cmd.ExecuteNonQuery();
         }
 
         private Resurs MapResurs(DbDataReader reader)
