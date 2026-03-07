@@ -81,7 +81,30 @@ namespace CoworkingSystem.backend.Repositories
 
         public List<Resurs> GetByLokacija(int lokacijaId)
         {
-            throw new NotImplementedException();
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE LokacijaId = @lokacijaId
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(
+                _dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId)
+            );
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
         }
 
         public List<Resurs> GetAllRadnaMesta()
