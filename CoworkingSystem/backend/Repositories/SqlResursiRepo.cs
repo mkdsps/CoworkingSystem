@@ -1,0 +1,372 @@
+﻿using CoworkingSystem.backend.dbConnection;
+using CoworkingSystem.backend.Modules;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Text;
+
+namespace CoworkingSystem.backend.Repositories
+{
+    internal class SqlResursiRepo : IResursiRepo
+    {
+        private readonly DbManager _dbManager;
+
+        public SqlResursiRepo()
+        {
+            _dbManager = DbManager.GetInstance();
+        }
+
+        public int Insert(Resurs resurs)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = $@"
+                INSERT INTO Resursi
+                (
+                    LokacijaId, Oznaka, TipResursa, Opis, Aktivan, PodtipStola, Kapacitet, ImaProjektor, ImaTV, ImaTablu, ImaOnlineOpremu, BrojRadnihMesta, Povrsina, DatumKreiranja
+                )
+                VALUES
+                ( 
+                    @lokacijaId, @oznaka, @tipResursa, @opis, @aktivan, @podtipStola, @kapacitet, @imaProjektor, @imaTV, @imaTablu, @imaOnlineOpremu, @brojRadnihMesta, @povrsina, {_dbManager.Adapter.GetCurrentDateTimeFunction()}
+                );";
+        
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", resurs.LokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@oznaka", resurs.Oznaka));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", resurs.TipResursa));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@opis", (object?)resurs.Opis ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@aktivan", resurs.Aktivan));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@podtipStola", (object?)resurs.PodtipStola ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@kapacitet", (object?)resurs.Kapacitet ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaProjektor", (object?)resurs.ImaProjektor ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaTV", (object?)resurs.ImaTV ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaTablu", (object?)resurs.ImaTablu ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaOnlineOpremu", (object?)resurs.ImaOnlineOpremu ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@brojRadnihMesta", (object?)resurs.BrojRadnihMesta ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@povrsina", (object?)resurs.Povrsina ?? DBNull.Value));
+
+            cmd.ExecuteNonQuery();
+
+            using var idCmd = conn.CreateCommand();
+            idCmd.CommandText = _dbManager.Adapter.GetLastInsertIdQuery();
+
+            object result = idCmd.ExecuteScalar()!;
+            return Convert.ToInt32(result);
+        }
+
+        public void Update(Resurs resurs)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                UPDATE Resursi
+                SET
+                    LokacijaId = @lokacijaId,
+                    Oznaka = @oznaka,
+                    TipResursa = @tipResursa,
+                    Opis = @opis,
+                    Aktivan = @aktivan,
+                    PodtipStola = @podtipStola,
+                    Kapacitet = @kapacitet,
+                    ImaProjektor = @imaProjektor,
+                    ImaTV = @imaTV,
+                    ImaTablu = @imaTablu,
+                    ImaOnlineOpremu = @imaOnlineOpremu,
+                    BrojRadnihMesta = @brojRadnihMesta,
+                    Povrsina = @povrsina
+                WHERE Id = @id;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", resurs.LokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@oznaka", resurs.Oznaka));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", resurs.TipResursa));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@opis", (object?)resurs.Opis ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@aktivan", resurs.Aktivan));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@podtipStola", (object?)resurs.PodtipStola ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@kapacitet", (object?)resurs.Kapacitet ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaProjektor", (object?)resurs.ImaProjektor ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaTV", (object?)resurs.ImaTV ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaTablu", (object?)resurs.ImaTablu ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaOnlineOpremu", (object?)resurs.ImaOnlineOpremu ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@brojRadnihMesta", (object?)resurs.BrojRadnihMesta ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@povrsina", (object?)resurs.Povrsina ?? DBNull.Value));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@id", resurs.Id));
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public void Delete(int id)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                DELETE FROM Resursi
+                WHERE Id = @id;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@id", id));
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public List<Resurs> GetAll()
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                ORDER BY Id DESC;
+                ";
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+        }
+
+        public Resurs? GetById(int id)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE Id = @id;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@id", id));
+
+            using var r = cmd.ExecuteReader();
+
+            if (r.Read())
+            {
+                return MapResurs(r);
+            }
+
+            return null;
+        }
+
+        public List<Resurs> GetByLokacija(int lokacijaId)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE LokacijaId = @lokacijaId
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(
+                _dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId)
+            );
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+        }
+
+        public List<Resurs> GetAllRadnaMesta()
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "RadnoMesto"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+        }
+
+        public List<Resurs> GetRadnaMestaByLokacija(int lokacijaId)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE LokacijaId = @lokacijaId
+                  AND TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "RadnoMesto"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+        }
+
+        public List<Resurs> GetAllSale()
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "Sala"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+
+        }
+
+        public List<Resurs> GetSaleByLokacija(int lokacijaId)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT *
+                FROM Resursi
+                WHERE LokacijaId = @lokacijaId
+                  AND TipResursa = @tipResursa
+                ORDER BY Id DESC;
+                ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId));
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", "Sala"));
+
+            var list = new List<Resurs>();
+
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(MapResurs(r));
+            }
+
+            return list;
+        }
+
+        public void SetActive(int id, bool active)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                UPDATE Resursi
+                SET Aktivan = @aktivan
+                WHERE Id = @id;
+                ";
+
+            cmd.Parameters.Add(
+                _dbManager.Adapter.CreateParameter("@aktivan", active)
+            );
+
+            cmd.Parameters.Add(
+                _dbManager.Adapter.CreateParameter("@id", id)
+            );
+
+            cmd.ExecuteNonQuery();
+        }
+
+        private Resurs MapResurs(DbDataReader reader)
+        {
+            Resurs r = new Resurs();
+
+            r.Id = Convert.ToInt32(reader["Id"]);
+            r.LokacijaId = Convert.ToInt32(reader["LokacijaId"]);
+            r.Oznaka = reader["Oznaka"].ToString() ?? "";
+            r.TipResursa = reader["TipResursa"].ToString() ?? "";
+            r.Opis = reader["Opis"] as string;
+            r.Aktivan = Convert.ToBoolean(reader["Aktivan"]);
+
+            r.PodtipStola = reader["PodtipStola"] as string;
+
+            r.BrojRadnihMesta = reader["BrojRadnihMesta"] != DBNull.Value
+                ? Convert.ToInt32(reader["BrojRadnihMesta"])
+                : null;
+
+            r.Kapacitet = reader["Kapacitet"] != DBNull.Value
+                ? Convert.ToInt32(reader["Kapacitet"])
+                : null;
+
+            r.ImaProjektor = reader["ImaProjektor"] != DBNull.Value
+                ? Convert.ToBoolean(reader["ImaProjektor"])
+                : null;
+
+            r.ImaTV = reader["ImaTV"] != DBNull.Value
+                ? Convert.ToBoolean(reader["ImaTV"])
+                : null;
+
+            r.ImaTablu = reader["ImaTablu"] != DBNull.Value
+                ? Convert.ToBoolean(reader["ImaTablu"])
+                : null;
+
+            r.ImaOnlineOpremu = reader["ImaOnlineOpremu"] != DBNull.Value
+                ? Convert.ToBoolean(reader["ImaOnlineOpremu"])
+                : null;
+
+            r.Povrsina = reader["Povrsina"] != DBNull.Value
+                ? Convert.ToDecimal(reader["Povrsina"])
+                : null;
+
+            r.DatumKreiranja = Convert.ToDateTime(reader["DatumKreiranja"]);
+
+            return r;
+        }
+    }
+}
