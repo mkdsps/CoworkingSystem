@@ -22,22 +22,30 @@ namespace CoworkingSystem.backend.Repositories
             conn.Open();
 
             using var cmd = conn.CreateCommand();
+
             cmd.CommandText = $@"
-                INSERT INTO Resursi
-                (
-                    LokacijaId, Oznaka, TipResursa, Opis, Aktivan, PodtipStola, Kapacitet, ImaProjektor, ImaTV, ImaTablu, ImaOnlineOpremu, BrojRadnihMesta, Povrsina, DatumKreiranja
-                )
-                VALUES
-                ( 
-                    @lokacijaId, @oznaka, @tipResursa, @opis, @aktivan, @podtipStola, @kapacitet, @imaProjektor, @imaTV, @imaTablu, @imaOnlineOpremu, @brojRadnihMesta, @povrsina, {_dbManager.Adapter.GetCurrentDateTimeFunction()}
-                );";
-        
+        INSERT INTO Resursi
+        (
+            LokacijaId, Oznaka, TipResursa, Opis, Aktivan,
+            PodtipStola, Kapacitet, ImaProjektor, ImaTV, ImaTablu, ImaOnlineOpremu,
+            BrojRadnihMesta, Povrsina, DatumKreiranja
+        )
+        VALUES
+        (
+            @lokacijaId, @oznaka, @tipResursa, @opis, @aktivan,
+            @podtipStola, @kapacitet, @imaProjektor, @imaTV, @imaTablu, @imaOnlineOpremu,
+            @brojRadnihMesta, @povrsina, {_dbManager.Adapter.GetCurrentDateTimeFunction()}
+        );
+
+        {_dbManager.Adapter.GetLastInsertIdQuery()};
+    ";
 
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", resurs.LokacijaId));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@oznaka", resurs.Oznaka));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@tipResursa", resurs.TipResursa));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@opis", (object?)resurs.Opis ?? DBNull.Value));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@aktivan", resurs.Aktivan));
+
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@podtipStola", (object?)resurs.PodtipStola ?? DBNull.Value));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@kapacitet", (object?)resurs.Kapacitet ?? DBNull.Value));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@imaProjektor", (object?)resurs.ImaProjektor ?? DBNull.Value));
@@ -47,12 +55,12 @@ namespace CoworkingSystem.backend.Repositories
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@brojRadnihMesta", (object?)resurs.BrojRadnihMesta ?? DBNull.Value));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@povrsina", (object?)resurs.Povrsina ?? DBNull.Value));
 
-            cmd.ExecuteNonQuery();
+            object? result = cmd.ExecuteScalar();
 
-            using var idCmd = conn.CreateCommand();
-            idCmd.CommandText = _dbManager.Adapter.GetLastInsertIdQuery();
+            if (result == null || result == DBNull.Value)
+                throw new Exception("Insert je uspeo, ali nije moguće dobiti ID novog resursa (last insert id).");
 
-            object result = idCmd.ExecuteScalar()!;
+            // MSSQL SCOPE_IDENTITY zna da vrati decimal
             return Convert.ToInt32(result);
         }
 

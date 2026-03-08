@@ -124,6 +124,7 @@
             button2.TabIndex = 7;
             button2.Text = "Dodaj Korisnika";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -133,6 +134,7 @@
             button3.TabIndex = 8;
             button3.Text = "Dodaj Lokaciju";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
@@ -142,6 +144,7 @@
             button4.TabIndex = 9;
             button4.Text = "Dodaj Tip Clanstva";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // label1
             // 
@@ -319,6 +322,7 @@
             button7.TabIndex = 36;
             button7.Text = "Dodaj Salu";
             button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
             // 
             // button8
             // 
@@ -328,6 +332,7 @@
             button8.TabIndex = 37;
             button8.Text = "Dodaj Radno Mesto";
             button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
             // 
             // label2
             // 
