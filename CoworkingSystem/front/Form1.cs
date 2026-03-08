@@ -14,6 +14,9 @@ namespace CoworkingSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Config cnf = Config.getInstance();
+            label1.Text = cnf.name;
+
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd.MM.yyyy";
 
@@ -23,18 +26,17 @@ namespace CoworkingSystem
             InicijalizujGridLokacije();
             InicijalizujGridResursi();
 
+            InicijalizujGridRezervacije();
+
             UcitajTipoveClanstva();
             PopuniStatuse();
             PopuniTipoveResursa();
 
             UcitajKorisnike();
             UcitajLokacije();
+            UcitajRezervacije();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void passwordInput_TextChanged(object sender, EventArgs e)
         {
@@ -64,6 +66,22 @@ namespace CoworkingSystem
         {
             dgv.CurrentCell = null;
             dgv.ClearSelection();
+        }
+
+        private void chkDatum_CheckedChanged(object sender, EventArgs e)
+        {
+            OsveziRezervacije();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            OsveziRezervacije();
+        }
+
+        private void dgvRezervacije_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            SacuvajSelektovanuRezervaciju();
+
         }
     }
 }

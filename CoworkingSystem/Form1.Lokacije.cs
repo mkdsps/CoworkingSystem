@@ -78,6 +78,8 @@ namespace CoworkingSystem
                 _resursiBindingSource.DataSource = null;
                 _selektovaniResurs = null;
             }
+
+            OsveziResurse();
         }
 
     }

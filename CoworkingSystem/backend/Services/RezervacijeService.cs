@@ -45,7 +45,7 @@ namespace CoworkingSystem.backend.Services
             repo.Update(rezervacija);
         }
 
-        public List<Rezervacija> VratiRezervacijeZaKorisnika(int korisnikId)
+        public List<Rezervacija> VratiRezervacijeZaKorisnika(int? korisnikId)
         {
             IRezervacijeRepo repo = _repoFactory.createRezervacijeRepo();
 
@@ -62,7 +62,7 @@ namespace CoworkingSystem.backend.Services
             return rezervacije;
         }
 
-        public List<Rezervacija> VratiRezervacijeZaDanILokaciju(int lokacijaId, DateTime dan)
+        public List<Rezervacija> VratiRezervacijeZaDanILokaciju(int? lokacijaId, DateTime dan)
         {
             IRezervacijeRepo repo = _repoFactory.createRezervacijeRepo();
 
