@@ -11,17 +11,18 @@ namespace CoworkingSystem.front
     {
         private IUiMediator _mediator;
         private LokacijaService _lokacijaService;
-
-        public SalaForma()
+        private Form1 _form1;
+        public SalaForma(Form1 form1)
         {
             InitializeComponent();
+            _form1 = form1;
         }
 
         private void SalaForma_Load(object sender, EventArgs e)
         {
             // Mediator za sale (koristi Resurs repo)
             _mediator = new SalaMediator(
-                new SalaService(new SqlResursiRepo())
+                new SalaService(new SqlResursiRepo(),new SqlLokacijaRepo())
             );
 
             // Lokacije za ComboBox
@@ -54,7 +55,7 @@ namespace CoworkingSystem.front
 
         private void LoadLokacije()
         {
-            var lokacije = _lokacijaService.GetByActive(true);
+            var lokacije = _lokacijaService.GetAll();
             cmbLokacija.DataSource = lokacije;
             cmbLokacija.DisplayMember = "Naziv";
             cmbLokacija.ValueMember = "Id";
@@ -98,7 +99,8 @@ namespace CoworkingSystem.front
 
                 MessageBox.Show($"Uspešno dodata sala. Id={res.Data}", "OK",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                _form1.OsveziResurse();
+                _form1.OsveziLokacije();
                 ClearInputs();
             }
             catch (Exception ex)

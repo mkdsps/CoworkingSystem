@@ -113,11 +113,11 @@ namespace CoworkingSystem.backend.Services
             if (delovi.Length != 2)
                 throw new ArgumentException("Radno vreme mora biti u formatu HH:mm-HH:mm.");
 
-            if (!TimeSpan.TryParse(delovi[0], out TimeSpan otvaranje))
-                throw new ArgumentException("Vreme otvaranja nije ispravno. Format mora biti HH:mm.");
+            if (!TimeSpan.TryParseExact(delovi[0], @"hh\:mm", null, out TimeSpan otvaranje))
+                throw new ArgumentException("Vreme otvaranja mora biti u formatu HH:mm.");
 
-            if (!TimeSpan.TryParse(delovi[1], out TimeSpan zatvaranje))
-                throw new ArgumentException("Vreme zatvaranja nije ispravno. Format mora biti HH:mm.");
+            if (!TimeSpan.TryParseExact(delovi[1], @"hh\:mm", null, out TimeSpan zatvaranje))
+                throw new ArgumentException("Vreme zatvaranja mora biti u formatu HH:mm.");
 
             if (otvaranje >= zatvaranje)
                 throw new ArgumentException("Vreme otvaranja mora biti pre vremena zatvaranja.");

@@ -5,7 +5,7 @@ using CoworkingSystem.backend.Services;
 using System;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-
+using CoworkingSystem.front;
 namespace CoworkingSystem.front
 {
     public partial class KorisnikForma : Form
@@ -13,10 +13,12 @@ namespace CoworkingSystem.front
         private IUiMediator _mediator;
         private LokacijaService _lokacijaService;
         private TipClanstvaService _tipClanstvaService;
+        private Form1 _form1;
 
-        public KorisnikForma()
+        public KorisnikForma(Form1 form1)
         {
             InitializeComponent();
+            _form1 = form1;
         }
 
         private void KorisnikForma_Load(object sender, EventArgs e)
@@ -39,9 +41,9 @@ namespace CoworkingSystem.front
             // status
             cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbStatus.Items.Clear();
-            cmbStatus.Items.Add("aktivan");
-            cmbStatus.Items.Add("pauziran");
-            cmbStatus.Items.Add("istekao");
+            cmbStatus.Items.Add("Aktivan");
+            cmbStatus.Items.Add("Pauziran");
+            cmbStatus.Items.Add("Istekao");
             cmbStatus.SelectedIndex = 0;
 
             // datumi
@@ -101,12 +103,11 @@ namespace CoworkingSystem.front
                     Telefon = txtTelefon.Text.Trim(),
 
                     TipClanstvaId = tipClanstvaId,
-                    LokacijaId = lokacijaId,
 
                     DatumPocetka = dtpDatumPocetka.Value.Date,
                     DatumIsteka = dtpDatumIsteka.Value.Date,
 
-                    Status = cmbStatus.SelectedItem?.ToString() ?? "aktivan",
+                    Status = cmbStatus.SelectedItem?.ToString() ?? "Aktivan",
                     Napomena = string.IsNullOrWhiteSpace(txtNapomena.Text) ? null : txtNapomena.Text.Trim()
                 };
 
@@ -120,7 +121,7 @@ namespace CoworkingSystem.front
 
                 MessageBox.Show($"Uspešno dodat korisnik. Id={res.Data}", "OK",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                _form1.OsveziKorisnike();
                 ClearInputs();
             }
             catch (Exception ex)

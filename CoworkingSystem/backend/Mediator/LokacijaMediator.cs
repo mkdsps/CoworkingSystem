@@ -30,8 +30,7 @@ namespace CoworkingSystem.backend.Mediator
                                 lok.Grad,
                                 lok.RadnoVreme,
                                 lok.MaksimalanBrojKorisnika,
-                                lok.Opis,
-                                lok.Aktivna
+                                lok.Opis
                             );
 
                             return UiResult<object?>.Ok(newId, "Lokacija je dodata.");

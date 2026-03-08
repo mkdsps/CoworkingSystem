@@ -369,7 +369,6 @@
             label5.Size = new Size(73, 15);
             label5.TabIndex = 39;
             label5.Text = "Vrsta resursa";
-            label5.Click += label5_Click;
             // 
             // Form1
             // 

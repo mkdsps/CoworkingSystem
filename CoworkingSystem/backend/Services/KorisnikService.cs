@@ -65,7 +65,7 @@ namespace CoworkingSystem.backend.Services
             if (k.TipClanstvaId <= 0) throw new Exception("Tip članstva je obavezan.");
 
             // status validacija
-            var s = (k.Status ?? "").Trim().ToLower();
+            var s = (k.Status ?? "").Trim();
             if (s != "Aktivan" && s != "Pauziran" && s != "Istekao")
                 throw new Exception("Status mora biti: aktivan, pauziran ili istekao.");
 

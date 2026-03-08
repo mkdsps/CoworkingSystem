@@ -11,17 +11,18 @@ namespace CoworkingSystem.front
     {
         private IUiMediator _mediator;
         private LokacijaService _lokacijaService;
-
-        public RadnoMestoForma()
+        private Form1 _form1;
+        public RadnoMestoForma(Form1 form1)
         {
             InitializeComponent();
+            _form1 = form1;
         }
 
         private void RadnoMestoForma_Load(object sender, EventArgs e)
         {
             // Mediator za radna mesta (koristi Resurs repo)
             _mediator = new RadnoMestoMediator(
-                new RadnoMestoService(new SqlResursiRepo())
+                new RadnoMestoService(new SqlResursiRepo(),new SqlLokacijaRepo())
             );
 
             // Treba nam lista lokacija za ComboBox
@@ -54,7 +55,7 @@ namespace CoworkingSystem.front
 
         private void LoadLokacije()
         {
-            var lokacije = _lokacijaService.GetByActive(true); // samo aktivne
+            var lokacije = _lokacijaService.GetAll(); // samo aktivne
             cmbLokacija.DataSource = lokacije;
             cmbLokacija.DisplayMember = "Naziv";
             cmbLokacija.ValueMember = "Id";
@@ -93,7 +94,8 @@ namespace CoworkingSystem.front
 
                 MessageBox.Show($"Uspešno dodato radno mesto. Id={res.Data}", "OK",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                _form1.OsveziResurse();
+                _form1.OsveziLokacije();
                 ClearInputs();
             }
             catch (Exception ex)

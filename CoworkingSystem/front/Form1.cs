@@ -55,42 +55,17 @@ namespace CoworkingSystem
         private void button2_Click(object sender, EventArgs e)
         {
             // Dodaj Korisnika
-            using (var f = new CoworkingSystem.front.KorisnikForma())
+            using (var f = new CoworkingSystem.front.KorisnikForma(this))
             {
                 f.ShowDialog();
             }
 
-            // posle zatvaranja forme, osveži grid
-            LoadKorisniciGrid();
         }
 
-        private void LoadKorisniciGrid()
-        {
-            try
-            {
-                var service = new KorisnikService(new SqlKorisnikRepo());
-                var list = service.GetAll();
-
-                dataGridView1.AutoGenerateColumns = true;
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = list;
-
-                // opciono: malo lepši prikaz
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dataGridView1.ReadOnly = true;
-                dataGridView1.AllowUserToAddRows = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Greška pri učitavanju korisnika",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         private void button3_Click(object sender, EventArgs e)
         {
             // Dodaj Lokaciju
-            using var f = new CoworkingSystem.front.LokacijaForma();
+            using var f = new CoworkingSystem.front.LokacijaForma(this);
             f.ShowDialog();
         }
 
@@ -104,7 +79,7 @@ namespace CoworkingSystem
         private void button7_Click(object sender, EventArgs e)
         {
             // Dodaj Salu
-            using var f = new CoworkingSystem.front.SalaForma();
+            using var f = new CoworkingSystem.front.SalaForma(this);
             f.ShowDialog();
             //MessageBox.Show("Klik radi!");
         }
@@ -112,8 +87,15 @@ namespace CoworkingSystem
         private void button8_Click(object sender, EventArgs e)
         {
             // Dodaj Radno Mesto
-            using var f = new CoworkingSystem.front.RadnoMestoForma();
+            using var f = new CoworkingSystem.front.RadnoMestoForma(this);
             f.ShowDialog();
+        }
+
+
+        private void OcistiSelekcijuGrida(DataGridView dgv)
+        {
+            dgv.CurrentCell = null;
+            dgv.ClearSelection();
         }
     }
 }

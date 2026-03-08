@@ -10,10 +10,11 @@ namespace CoworkingSystem.front
     public partial class LokacijaForma : Form
     {
         private IUiMediator _mediator;
-
-        public LokacijaForma()
+        private Form1 _form1;
+        public LokacijaForma(Form1 form1)
         {
             InitializeComponent();
+            _form1 = form1;
         }
 
         private void LokacijaForma_Load(object sender, EventArgs e)
@@ -66,9 +67,9 @@ namespace CoworkingSystem.front
                     MessageBox.Show(res.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
                 MessageBox.Show($"Uspešno dodata lokacija. Id={res.Data}", "OK",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _form1.OsveziLokacije();
 
                 ClearInputs();
             }
