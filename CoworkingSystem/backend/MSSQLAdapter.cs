@@ -9,7 +9,7 @@ namespace CoworkingSystem.backend
     {
         public string GetLastInsertIdQuery()
         {
-            return "SELECT SCOPE_IDENTITY()";
+            return "SELECT CAST(SCOPE_IDENTITY() AS int)";
         }
 
         public string GetCurrentDateTimeFunction()

@@ -32,4 +32,16 @@
     <None Include="C:\Users\IGY\source\repos\CoworkingSystem\CoworkingSystem\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="front\SalaForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="front\RadnoMestoForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="front\LokacijaForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
