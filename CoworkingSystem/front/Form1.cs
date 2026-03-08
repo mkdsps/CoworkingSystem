@@ -1,3 +1,8 @@
+using CoworkingSystem.backend;
+using CoworkingSystem.backend.Modules;
+using CoworkingSystem.backend.Repositories;
+using CoworkingSystem.backend.Services;
+
 namespace CoworkingSystem
 {
     public partial class Form1 : Form
@@ -11,6 +16,19 @@ namespace CoworkingSystem
         {
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd.MM.yyyy";
+
+            InicijalizujServise();
+
+            InicijalizujGridKorisnici();
+            InicijalizujGridLokacije();
+            InicijalizujGridResursi();
+
+            UcitajTipoveClanstva();
+            PopuniStatuse();
+            PopuniTipoveResursa();
+
+            UcitajKorisnike();
+            UcitajLokacije();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -35,6 +53,17 @@ namespace CoworkingSystem
         private void label11_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OcistiSelekcijuGrida(DataGridView dgv)
+        {
+            dgv.CurrentCell = null;
+            dgv.ClearSelection();
         }
     }
 }

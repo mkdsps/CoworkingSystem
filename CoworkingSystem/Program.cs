@@ -30,7 +30,7 @@ namespace CoworkingSystem
 
             ApplicationConfiguration.Initialize();
             Application.Run(new LoginForma());
-            
+
         }
     }
 }

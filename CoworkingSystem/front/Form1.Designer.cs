@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            dataGridView4 = new DataGridView();
-            dataGridView5 = new DataGridView();
+            dgvKorisnici = new DataGridView();
+            dgvLokacije = new DataGridView();
+            dgvResursi = new DataGridView();
             dataGridView2 = new DataGridView();
             button1 = new Button();
             button2 = new Button();
@@ -38,8 +38,8 @@
             button4 = new Button();
             label1 = new Label();
             comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
-            comboBox3 = new ComboBox();
+            cmbStatusNaloga = new ComboBox();
+            cmbTipClanstva = new ComboBox();
             label3 = new Label();
             label4 = new Label();
             Korisnici = new Label();
@@ -49,7 +49,7 @@
             label9 = new Label();
             button5 = new Button();
             button6 = new Button();
-            textBox1 = new TextBox();
+            txtPretragaKorisnika = new TextBox();
             label10 = new Label();
             label11 = new Label();
             dateTimePicker1 = new DateTimePicker();
@@ -58,47 +58,58 @@
             button8 = new Button();
             label2 = new Label();
             comboBox4 = new ComboBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView5).BeginInit();
+            cmbTipResursa = new ComboBox();
+            label5 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvKorisnici).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvLokacije).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvResursi).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvKorisnici
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 202);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(941, 199);
-            dataGridView1.TabIndex = 0;
+            dgvKorisnici.AllowUserToAddRows = false;
+            dgvKorisnici.AllowUserToDeleteRows = false;
+            dgvKorisnici.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKorisnici.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvKorisnici.Location = new Point(12, 141);
+            dgvKorisnici.MultiSelect = false;
+            dgvKorisnici.Name = "dgvKorisnici";
+            dgvKorisnici.ReadOnly = true;
+            dgvKorisnici.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvKorisnici.Size = new Size(1231, 199);
+            dgvKorisnici.TabIndex = 0;
+            dgvKorisnici.SelectionChanged += dgvKorisnici_SelectionChanged;
             // 
-            // dataGridView4
+            // dgvLokacije
             // 
-            dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView4.Location = new Point(1001, 202);
-            dataGridView4.Name = "dataGridView4";
-            dataGridView4.Size = new Size(563, 199);
-            dataGridView4.TabIndex = 3;
+            dgvLokacije.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvLokacije.Location = new Point(1318, 141);
+            dgvLokacije.Name = "dgvLokacije";
+            dgvLokacije.Size = new Size(563, 199);
+            dgvLokacije.TabIndex = 3;
+            dgvLokacije.SelectionChanged += dgvLokacije_SelectionChanged;
             // 
-            // dataGridView5
+            // dgvResursi
             // 
-            dataGridView5.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView5.Location = new Point(1598, 202);
-            dataGridView5.Name = "dataGridView5";
-            dataGridView5.Size = new Size(563, 199);
-            dataGridView5.TabIndex = 4;
+            dgvResursi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvResursi.Location = new Point(12, 539);
+            dgvResursi.Name = "dgvResursi";
+            dgvResursi.Size = new Size(563, 199);
+            dgvResursi.TabIndex = 4;
+            dgvResursi.SelectionChanged += dgvResursi_SelectionChanged;
             // 
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(618, 607);
+            dataGridView2.Location = new Point(642, 539);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.Size = new Size(1079, 288);
             dataGridView2.TabIndex = 5;
             // 
             // button1
             // 
-            button1.Location = new Point(152, 687);
+            button1.Location = new Point(642, 850);
             button1.Name = "button1";
             button1.Size = new Size(283, 67);
             button1.TabIndex = 6;
@@ -107,16 +118,16 @@
             // 
             // button2
             // 
-            button2.Location = new Point(12, 417);
+            button2.Location = new Point(1084, 346);
             button2.Name = "button2";
-            button2.Size = new Size(132, 73);
+            button2.Size = new Size(159, 73);
             button2.TabIndex = 7;
             button2.Text = "Dodaj Korisnika";
             button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            button3.Location = new Point(1001, 407);
+            button3.Location = new Point(1318, 346);
             button3.Name = "button3";
             button3.Size = new Size(132, 73);
             button3.TabIndex = 8;
@@ -125,7 +136,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(152, 796);
+            button4.Location = new Point(642, 934);
             button4.Name = "button4";
             button4.Size = new Size(132, 73);
             button4.TabIndex = 9;
@@ -136,7 +147,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 20F);
-            label1.Location = new Point(1021, 33);
+            label1.Location = new Point(1014, 9);
             label1.Name = "label1";
             label1.Size = new Size(94, 37);
             label1.TabIndex = 10;
@@ -151,26 +162,30 @@
             comboBox1.Size = new Size(170, 23);
             comboBox1.TabIndex = 11;
             // 
-            // comboBox2
+            // cmbStatusNaloga
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(783, 159);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(170, 23);
-            comboBox2.TabIndex = 12;
+            cmbStatusNaloga.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbStatusNaloga.FormattingEnabled = true;
+            cmbStatusNaloga.Location = new Point(719, 98);
+            cmbStatusNaloga.Name = "cmbStatusNaloga";
+            cmbStatusNaloga.Size = new Size(170, 23);
+            cmbStatusNaloga.TabIndex = 12;
+            cmbStatusNaloga.SelectedIndexChanged += cmbStatusNaloga_SelectedIndexChanged;
             // 
-            // comboBox3
+            // cmbTipClanstva
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(607, 159);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(170, 23);
-            comboBox3.TabIndex = 13;
+            cmbTipClanstva.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTipClanstva.FormattingEnabled = true;
+            cmbTipClanstva.Location = new Point(543, 98);
+            cmbTipClanstva.Name = "cmbTipClanstva";
+            cmbTipClanstva.Size = new Size(170, 23);
+            cmbTipClanstva.TabIndex = 13;
+            cmbTipClanstva.SelectedIndexChanged += cmbTipClanstva_SelectedIndexChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(706, 129);
+            label3.Location = new Point(642, 68);
             label3.Name = "label3";
             label3.Size = new Size(71, 15);
             label3.TabIndex = 17;
@@ -179,7 +194,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(873, 129);
+            label4.Location = new Point(809, 68);
             label4.Name = "label4";
             label4.Size = new Size(80, 15);
             label4.TabIndex = 18;
@@ -189,7 +204,7 @@
             // 
             Korisnici.AutoSize = true;
             Korisnici.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Korisnici.Location = new Point(12, 159);
+            Korisnici.Location = new Point(12, 98);
             Korisnici.Name = "Korisnici";
             Korisnici.Size = new Size(81, 24);
             Korisnici.TabIndex = 19;
@@ -199,7 +214,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(1001, 155);
+            label6.Location = new Point(1318, 94);
             label6.Name = "label6";
             label6.Size = new Size(79, 24);
             label6.TabIndex = 21;
@@ -219,7 +234,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(1598, 155);
+            label8.Location = new Point(12, 492);
             label8.Name = "label8";
             label8.Size = new Size(73, 24);
             label8.TabIndex = 23;
@@ -229,7 +244,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(618, 567);
+            label9.Location = new Point(642, 499);
             label9.Name = "label9";
             label9.Size = new Size(139, 29);
             label9.TabIndex = 24;
@@ -237,7 +252,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(1725, 731);
+            button5.Location = new Point(1749, 663);
             button5.Name = "button5";
             button5.Size = new Size(132, 73);
             button5.TabIndex = 28;
@@ -246,24 +261,25 @@
             // 
             // button6
             // 
-            button6.Location = new Point(1725, 822);
+            button6.Location = new Point(1749, 754);
             button6.Name = "button6";
             button6.Size = new Size(132, 73);
             button6.TabIndex = 29;
             button6.Text = "Otkazi rezervaciju";
             button6.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtPretragaKorisnika
             // 
-            textBox1.Location = new Point(138, 159);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(257, 23);
-            textBox1.TabIndex = 30;
+            txtPretragaKorisnika.Location = new Point(121, 98);
+            txtPretragaKorisnika.Name = "txtPretragaKorisnika";
+            txtPretragaKorisnika.Size = new Size(210, 23);
+            txtPretragaKorisnika.TabIndex = 30;
+            txtPretragaKorisnika.TextChanged += txtPretragaKorisnika_TextChanged;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(295, 129);
+            label10.Location = new Point(231, 68);
             label10.Name = "label10";
             label10.Size = new Size(100, 15);
             label10.TabIndex = 31;
@@ -272,7 +288,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(1633, 544);
+            label11.Location = new Point(1657, 476);
             label11.Name = "label11";
             label11.Size = new Size(43, 15);
             label11.TabIndex = 32;
@@ -281,7 +297,7 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(1499, 572);
+            dateTimePicker1.Location = new Point(1523, 504);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(177, 23);
             dateTimePicker1.TabIndex = 34;
@@ -289,7 +305,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(1682, 579);
+            checkBox1.Location = new Point(1706, 511);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(15, 14);
             checkBox1.TabIndex = 35;
@@ -297,7 +313,7 @@
             // 
             // button7
             // 
-            button7.Location = new Point(1598, 407);
+            button7.Location = new Point(12, 744);
             button7.Name = "button7";
             button7.Size = new Size(132, 73);
             button7.TabIndex = 36;
@@ -306,7 +322,7 @@
             // 
             // button8
             // 
-            button8.Location = new Point(1736, 407);
+            button8.Location = new Point(150, 744);
             button8.Name = "button8";
             button8.Size = new Size(132, 73);
             button8.TabIndex = 37;
@@ -316,7 +332,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(551, 129);
+            label2.Location = new Point(487, 68);
             label2.Name = "label2";
             label2.Size = new Size(50, 15);
             label2.TabIndex = 15;
@@ -325,23 +341,45 @@
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(431, 159);
+            comboBox4.Location = new Point(367, 98);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(170, 23);
             comboBox4.TabIndex = 14;
+            // 
+            // cmbTipResursa
+            // 
+            cmbTipResursa.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTipResursa.FormattingEnabled = true;
+            cmbTipResursa.Location = new Point(454, 504);
+            cmbTipResursa.Name = "cmbTipResursa";
+            cmbTipResursa.Size = new Size(121, 23);
+            cmbTipResursa.TabIndex = 38;
+            cmbTipResursa.SelectedIndexChanged += cmbTipResursa_SelectedIndexChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(502, 476);
+            label5.Name = "label5";
+            label5.Size = new Size(73, 15);
+            label5.TabIndex = 39;
+            label5.Text = "Vrsta resursa";
+            label5.Click += label5_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2189, 948);
+            ClientSize = new Size(1904, 1041);
+            Controls.Add(label5);
+            Controls.Add(cmbTipResursa);
             Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(checkBox1);
             Controls.Add(dateTimePicker1);
             Controls.Add(label11);
             Controls.Add(label10);
-            Controls.Add(textBox1);
+            Controls.Add(txtPretragaKorisnika);
             Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(label9);
@@ -353,8 +391,8 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(comboBox4);
-            Controls.Add(comboBox3);
-            Controls.Add(comboBox2);
+            Controls.Add(cmbTipClanstva);
+            Controls.Add(cmbStatusNaloga);
             Controls.Add(comboBox1);
             Controls.Add(label1);
             Controls.Add(button4);
@@ -362,15 +400,15 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView2);
-            Controls.Add(dataGridView5);
-            Controls.Add(dataGridView4);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvResursi);
+            Controls.Add(dgvLokacije);
+            Controls.Add(dgvKorisnici);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvKorisnici).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvLokacije).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvResursi).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -378,9 +416,9 @@
 
         #endregion
 
-        private DataGridView dataGridView1;
-        private DataGridView dataGridView4;
-        private DataGridView dataGridView5;
+        private DataGridView dgvKorisnici;
+        private DataGridView dgvLokacije;
+        private DataGridView dgvResursi;
         private DataGridView dataGridView2;
         private Button button1;
         private Button button2;
@@ -388,20 +426,18 @@
         private Button button4;
         private Label label1;
         private ComboBox comboBox1;
-        private ComboBox comboBox2;
-        private ComboBox comboBox3;
+        private ComboBox cmbStatusNaloga;
+        private ComboBox cmbTipClanstva;
         private Label label3;
         private Label label4;
         private Label Korisnici;
         private Label label6;
         private Label label7;
         private Label label8;
-        private Label label9;
-        private ComboBox comboBox6;
-        private ComboBox comboBox7;
+        private Label label9;        
         private Button button5;
         private Button button6;
-        private TextBox textBox1;
+        private TextBox txtPretragaKorisnika;
         private Label label10;
         private Label label11;
         private DateTimePicker dateTimePicker1;
@@ -410,5 +446,7 @@
         private Button button8;
         private Label label2;
         private ComboBox comboBox4;
+        private ComboBox cmbTipResursa;
+        private Label label5;
     }
 }

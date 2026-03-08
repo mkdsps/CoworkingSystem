@@ -117,7 +117,7 @@ namespace CoworkingSystem.backend.Repositories
                 SELECT
                     Id, Ime, Prezime, Email, Telefon,
                     TipClanstvaId, DatumPocetka, DatumIsteka,
-                    Status, LokacijaId, Napomena
+                    Status, LokacijaId, Napomena, DatumRegistracije
                 FROM Korisnici;
             ";
 
@@ -142,7 +142,8 @@ namespace CoworkingSystem.backend.Repositories
                     DatumIsteka = GetDateTime(r, "DatumIsteka"),
                     Status = GetString(r, "Status"),
                     LokacijaId = GetInt(r, "LokacijaId"),
-                    Napomena = GetString(r, "Napomena")
+                    Napomena = GetString(r, "Napomena"),
+                    DatumRegistracije = Convert.ToDateTime(r["DatumRegistracije"])                
                 };
 
                 list.Add(k);

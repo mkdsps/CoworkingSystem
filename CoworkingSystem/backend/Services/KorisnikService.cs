@@ -67,7 +67,7 @@ namespace CoworkingSystem.backend.Services
 
             // status validacija
             var s = (k.Status ?? "").Trim().ToLower();
-            if (s != "aktivan" && s != "pauziran" && s != "istekao")
+            if (s != "Aktivan" && s != "Pauziran" && s != "Istekao")
                 throw new Exception("Status mora biti: aktivan, pauziran ili istekao.");
 
             // datumi
