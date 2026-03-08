@@ -29,5 +29,7 @@ namespace CoworkingSystem.backend.Repositories
         List<Resurs> GetSaleByLokacija(int lokacijaId);
 
         void SetActive(int id, bool active);
+
+        bool LokacijaImaAktivneResurse(int lokacijaId);
     }
 }

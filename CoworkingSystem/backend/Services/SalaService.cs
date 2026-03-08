@@ -10,29 +10,53 @@ namespace CoworkingSystem.backend.Services
     internal class SalaService
     {
         private readonly IResursiRepo _resursiRepo;
+        private readonly ILokacijeRepo _lokacijeRepo;
 
-        public SalaService(IResursiRepo resursiRepo)
+        public SalaService(IResursiRepo resursiRepo, ILokacijeRepo lokacijeRepo)
         {
             _resursiRepo = resursiRepo;
+            _lokacijeRepo = lokacijeRepo;
         }
 
         public int AddSala(Resurs sala)
         {
             ValidateSala(sala);
             sala.TipResursa = "Sala";
-            return _resursiRepo.Insert(sala);
+            int id = _resursiRepo.Insert(sala);
+            _lokacijeRepo.SetActive(sala.LokacijaId, true);
+            return id;
         }
 
         public void UpdateSala(Resurs sala)
         {
             ValidateSala(sala);
             sala.TipResursa = "Sala";
+
+            var staraSala = _resursiRepo.GetById(sala.Id);
+            if (staraSala == null)
+                throw new Exception("Sala ne postoji.");
+
             _resursiRepo.Update(sala);
+
+            bool staraLokacijaImaResurse = _resursiRepo.LokacijaImaAktivneResurse(staraSala.LokacijaId);
+            _lokacijeRepo.SetActive(staraSala.LokacijaId, staraLokacijaImaResurse);
+
+            bool novaLokacijaImaResurse = _resursiRepo.LokacijaImaAktivneResurse(sala.LokacijaId);
+            _lokacijeRepo.SetActive(sala.LokacijaId, novaLokacijaImaResurse);
         }
 
         public void DeleteSala(int id)
         {
+            var sala = _resursiRepo.GetById(id);
+            if (sala == null)
+                throw new Exception("Sala ne postoji.");
+
+            int lokacijaId = sala.LokacijaId;
+
             _resursiRepo.Delete(id);
+
+            bool imaResurse = _resursiRepo.LokacijaImaAktivneResurse(lokacijaId);
+            _lokacijeRepo.SetActive(lokacijaId, imaResurse);
         }
 
         public void SetActive(int id, bool active)

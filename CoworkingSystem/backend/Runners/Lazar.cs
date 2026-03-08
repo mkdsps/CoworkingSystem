@@ -17,7 +17,8 @@ namespace CoworkingSystem.backend.Runners
                 Debug.WriteLine("=== TEST SALA SERVICE ===");
 
                 IResursiRepo repo = new SqlResursiRepo();
-                SalaService service = new SalaService(repo);
+                ILokacijeRepo repoL = new SqlLokacijaRepo();
+                SalaService service = new SalaService(repo,repoL);
 
                 
                 List<Resurs> sveSale = service.GetAllSale();
