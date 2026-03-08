@@ -1,31 +1,43 @@
-﻿using CoworkingSystem.backend.Modules;
+﻿using CoworkingSystem.backend.Izvestaji;
 using CoworkingSystem.backend.Repositories;
 using CoworkingSystem.backend.Services;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using System.Windows.Forms;
 
 namespace CoworkingSystem.backend.Runners
 {
     internal class Lazar
     {
+        private static ExportScheduler? _scheduler;
+
         public static void Run()
         {
             try
             {
-                Debug.WriteLine("=== TEST SALA SERVICE ===");
+                IResursiRepo resursiRepo = new SqlResursiRepo();
+                ITipClanstvaRepo tipRepo = new SqlTipClanstvaRepo();
 
-                IResursiRepo repo = new SqlResursiRepo();
-                SalaService service = new SalaService(repo);
+                var statistikaService = new StatistikaService(resursiRepo, tipRepo);
+                var csvExportService = new CsvExportService();
 
-                
-                List<Resurs> sveSale = service.GetAllSale();
-                Debug.WriteLine($"Ukupno sala: {sveSale.Count}");
+                // OVDE BIRAS KOJI IZVESTAJ HOCES
+                IReportPeriodStrategy strategy = new DailyReportStrategy();
+                // IReportPeriodStrategy strategy = new MonthlyReportStrategy();
 
-                List<Resurs> saleNaLokaciji = service.GetSaleByLokacija(1);
-                Debug.WriteLine($"Sale na lokaciji 1: {saleNaLokaciji.Count}");
-                
+                string folderPutanja = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "Izvestaji");
+
+                var observer = new CsvExportObserver(
+                    strategy,
+                    statistikaService,
+                    csvExportService,
+                    folderPutanja);
+
+                _scheduler = new ExportScheduler(TimeSpan.FromSeconds(60));
+
+                _scheduler.Subscribe(observer);
+                _scheduler.Start();
             }
             catch (Exception ex)
             {
