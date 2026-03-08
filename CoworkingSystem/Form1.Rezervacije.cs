@@ -1,4 +1,5 @@
-﻿using CoworkingSystem.backend.Modules;
+﻿using CoworkingSystem.backend;
+using CoworkingSystem.backend.Modules;
 using CoworkingSystem.backend.Services;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,8 @@ namespace CoworkingSystem
 
         private void OsveziRezervacije()
         {
+            _rezervacijeService = new RezervacijeService(new SqlRepoFactory());
+
             List<Rezervacija>? poKorisniku = null;
             List<Rezervacija>? poDanuILokaciji = null;
 
@@ -66,7 +69,7 @@ namespace CoworkingSystem
 
             if (imaKorisnik)
             {
-                int? korisnikId = _selektovaniKorisnik.Id;
+                int korisnikId = _selektovaniKorisnik.Id;
                 poKorisniku = _rezervacijeService.VratiRezervacijeZaKorisnika(korisnikId);
             }
 
