@@ -1,4 +1,5 @@
 ﻿using CoworkingSystem.backend.Modules;
+using CoworkingSystem.backend.Statistike;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ namespace CoworkingSystem.backend.Repositories
         public List<Korisnik> Get(KorisnikFilter filter);
 
         public Korisnik GetByID(int id);
+
+        public List<Korisnik> GetKorisniciSaRezervacijamaNaLokaciji(int lokacijaId);
 
     }
 }
