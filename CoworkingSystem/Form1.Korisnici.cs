@@ -82,6 +82,12 @@ namespace CoworkingSystem
         {
             IEnumerable<Korisnik> rezultat = _sviKorisnici;
 
+            if (cmbLokacija.SelectedItem is Lokacija izabranaLokacija)
+            {
+                rezultat = _korisnikService!
+                    .GetKorisniciSaRezervacijamaNaLokaciji(izabranaLokacija.Id);
+            }
+
             string pretraga = txtPretragaKorisnika.Text.ToLower();
 
             if (!string.IsNullOrWhiteSpace(pretraga))
@@ -116,6 +122,20 @@ namespace CoworkingSystem
 
             OcistiSelekcijuGrida(dgvKorisnici);
             _selektovaniKorisnik = null;
+        }
+
+        private void PopuniLokacijeZaFilterKorisnika()
+        {
+            cmbLokacija.Items.Clear();
+            cmbLokacija.Items.Add("Sve");
+
+            foreach (var lokacija in _sveLokacije)
+            {
+                cmbLokacija.Items.Add(lokacija);
+            }
+
+            cmbLokacija.DisplayMember = "Naziv";
+            cmbLokacija.SelectedIndex = 0;
         }
 
         public void OsveziKorisnike()
@@ -155,6 +175,11 @@ namespace CoworkingSystem
         {
             SacuvajSelektovanogKorisnika();
             OsveziRezervacije();
+        }
+
+        private void cmbLokacija_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrirajKorisnike();
         }
     }
 }

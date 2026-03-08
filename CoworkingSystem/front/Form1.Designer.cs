@@ -55,7 +55,7 @@
             button7 = new Button();
             button8 = new Button();
             label2 = new Label();
-            comboBox4 = new ComboBox();
+            cmbLokacija = new ComboBox();
             cmbTipResursa = new ComboBox();
             label5 = new Label();
             button9 = new Button();
@@ -332,13 +332,15 @@
             label2.TabIndex = 15;
             label2.Text = "Lokacija";
             // 
-            // comboBox4
+            // cmbLokacija
             // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(367, 98);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(170, 23);
-            comboBox4.TabIndex = 14;
+            cmbLokacija.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLokacija.FormattingEnabled = true;
+            cmbLokacija.Location = new Point(367, 98);
+            cmbLokacija.Name = "cmbLokacija";
+            cmbLokacija.Size = new Size(170, 23);
+            cmbLokacija.TabIndex = 14;
+            cmbLokacija.SelectedIndexChanged += cmbLokacija_SelectedIndexChanged;
             // 
             // cmbTipResursa
             // 
@@ -404,7 +406,7 @@
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(comboBox4);
+            Controls.Add(cmbLokacija);
             Controls.Add(cmbTipClanstva);
             Controls.Add(cmbStatusNaloga);
             Controls.Add(label1);
@@ -457,7 +459,7 @@
         private Button button7;
         private Button button8;
         private Label label2;
-        private ComboBox comboBox4;
+        private ComboBox cmbLokacija;
         private ComboBox cmbTipResursa;
         private Label label5;
         private Button button9;
