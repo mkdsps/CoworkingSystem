@@ -3,7 +3,7 @@ using CoworkingSystem.backend.Modules;
 using CoworkingSystem.backend.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace CoworkingSystem
@@ -29,32 +29,58 @@ namespace CoworkingSystem
         private void UcitajRezervacije()
         {
             OsveziRezervacije();
-            SakrijKoloneRezervacije();
         }
 
         private void SakrijKoloneRezervacije()
         {
-            var idKolona = dgvRezervacije.Columns["id"];
+            var idKolona = dgvRezervacije.Columns["Id"];
             if (idKolona != null)
                 idKolona.Visible = false;
 
+            var korisnikIdKolona = dgvRezervacije.Columns["KorisnikId"];
+            if (korisnikIdKolona != null)
+                korisnikIdKolona.Visible = false;
 
-            var broj_korisnika = dgvRezervacije.Columns["BrojUcesnika"];
-            if (broj_korisnika != null)
-                broj_korisnika.Visible = false;
+            var resursIdKolona = dgvRezervacije.Columns["ResursId"];
+            if (resursIdKolona != null)
+                resursIdKolona.Visible = false;
 
-            //var napomenaKolona = dgvRezervacije.Columns["Napomena"];
-            //if (napomenaKolona != null)
-            //    napomenaKolona.Visible = false;
+            var brojUcesnikaKolona = dgvRezervacije.Columns["BrojUcesnika"];
+            if (brojUcesnikaKolona != null)
+                brojUcesnikaKolona.Visible = false;
 
-            //var dkKolona = dgvRezervacije.Columns["DatumKreiranja"];
-            //if (dkKolona != null)
-            //    dkKolona.Visible = false;
+            var imeKolona = dgvRezervacije.Columns["ImeKorisnika"];
+            if (imeKolona != null)
+                imeKolona.Visible = false;
 
-            //var dzKolona = dgvRezervacije.Columns["DatumIzmene"];
-            //if (dzKolona != null)
-            //    dzKolona.Visible = false;
+            var prezimeKolona = dgvRezervacije.Columns["PrezimeKorisnika"];
+            if (prezimeKolona != null)
+                prezimeKolona.Visible = false;
 
+            var datumKreiranjaKolona = dgvRezervacije.Columns["DatumKreiranja"];
+            if (datumKreiranjaKolona != null)
+                datumKreiranjaKolona.Visible = false;
+
+            var datumIzmeneKolona = dgvRezervacije.Columns["DatumIzmene"];
+            if (datumIzmeneKolona != null)
+                datumIzmeneKolona.Visible = false;
+
+            // Ako koristiš puno ime kao computed property
+            var korisnikPunoImeKolona = dgvRezervacije.Columns["KorisnikPunoIme"];
+            if (korisnikPunoImeKolona != null)
+                korisnikPunoImeKolona.HeaderText = "Korisnik";
+
+            var nazivLokacijeKolona = dgvRezervacije.Columns["NazivLokacije"];
+            if (nazivLokacijeKolona != null)
+                nazivLokacijeKolona.HeaderText = "Lokacija";
+
+            var datumPocetkaKolona = dgvRezervacije.Columns["DatumVremePocetka"];
+            if (datumPocetkaKolona != null)
+                datumPocetkaKolona.HeaderText = "Početak";
+
+            var datumKrajaKolona = dgvRezervacije.Columns["DatumVremeZavrsetka"];
+            if (datumKrajaKolona != null)
+                datumKrajaKolona.HeaderText = "Kraj";
         }
 
         private void OsveziRezervacije()
@@ -75,7 +101,7 @@ namespace CoworkingSystem
 
             if (imaLokacija)
             {
-                int? lokacijaId =  _selektovanaLokacija  != null ? _selektovanaLokacija.Id : null;
+                int? lokacijaId = _selektovanaLokacija != null ? _selektovanaLokacija.Id : null;
                 DateTime dan = dateTimePicker1.Value.Date;
                 poDanuILokaciji = _rezervacijeService.VratiRezervacijeZaDanILokaciju(lokacijaId, dan);
             }
@@ -101,7 +127,10 @@ namespace CoworkingSystem
                 rezultat = new List<Rezervacija>();
             }
 
+            _rezervacijeBindingSource.DataSource = null;
             _rezervacijeBindingSource.DataSource = rezultat;
+
+            SakrijKoloneRezervacije();
         }
 
         private void SacuvajSelektovanuRezervaciju()
@@ -122,7 +151,6 @@ namespace CoworkingSystem
                 _rezervacijeService.OtkaziRezervaciju(_selektovanaRezervacija.Id);
                 OsveziRezervacije();
             }
-
         }
 
         private void dgvRezervacije_SelectionChanged(object sender, EventArgs e)

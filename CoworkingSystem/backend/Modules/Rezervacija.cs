@@ -6,6 +6,14 @@ namespace CoworkingSystem.backend.Modules
 {
     internal class Rezervacija
     {
+        public string KorisnikPunoIme
+        {
+            get
+            {
+                return $"{ImeKorisnika} {PrezimeKorisnika}".Trim();
+            }
+        }
+        public string? NazivLokacije { get; set; }
         public int Id { get; set; }
 
         public int KorisnikId { get; set; }
@@ -26,7 +34,14 @@ namespace CoworkingSystem.backend.Modules
         public DateTime DatumKreiranja { get; set; }
 
         public DateTime? DatumIzmene { get; set; }
+        public string? ImeKorisnika { get; set; }
+        public string? PrezimeKorisnika { get; set; }
+        
+
+        
     }
+
+    
 
     public enum StatusRezervacije
     {
