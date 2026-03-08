@@ -2,41 +2,74 @@
 using CoworkingSystem.backend.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CoworkingSystem.backend.Services
 {
     internal class RadnoMestoService
     {
         private readonly IResursiRepo _resursiRepo;
+        private readonly ILokacijeRepo _lokacijeRepo;
 
-        public RadnoMestoService(IResursiRepo resursiRepo)
+        public RadnoMestoService(IResursiRepo resursiRepo, ILokacijeRepo lokacijeRepo)
         {
             _resursiRepo = resursiRepo;
+            _lokacijeRepo = lokacijeRepo;
         }
 
         public int AddRadnoMesto(Resurs radnoMesto)
         {
             ValidateRadnoMesto(radnoMesto);
             radnoMesto.TipResursa = "RadnoMesto";
-            return _resursiRepo.Insert(radnoMesto);
+
+            int id = _resursiRepo.Insert(radnoMesto);
+
+            _lokacijeRepo.SetActive(radnoMesto.LokacijaId, true);
+
+            return id;
         }
 
         public void UpdateRadnoMesto(Resurs radnoMesto)
         {
             ValidateRadnoMesto(radnoMesto);
             radnoMesto.TipResursa = "RadnoMesto";
+
+            var staroRadnoMesto = _resursiRepo.GetById(radnoMesto.Id);
+            if (staroRadnoMesto == null)
+                throw new Exception("Radno mesto ne postoji.");
+
             _resursiRepo.Update(radnoMesto);
+
+            bool staraLokacijaImaResurse = _resursiRepo.LokacijaImaAktivneResurse(staroRadnoMesto.LokacijaId);
+            _lokacijeRepo.SetActive(staroRadnoMesto.LokacijaId, staraLokacijaImaResurse);
+
+            bool novaLokacijaImaResurse = _resursiRepo.LokacijaImaAktivneResurse(radnoMesto.LokacijaId);
+            _lokacijeRepo.SetActive(radnoMesto.LokacijaId, novaLokacijaImaResurse);
         }
 
         public void DeleteRadnoMesto(int id)
         {
+            var radnoMesto = _resursiRepo.GetById(id);
+            if (radnoMesto == null)
+                throw new Exception("Radno mesto ne postoji.");
+
+            int lokacijaId = radnoMesto.LokacijaId;
+
             _resursiRepo.Delete(id);
+
+            bool imaResurse = _resursiRepo.LokacijaImaAktivneResurse(lokacijaId);
+            _lokacijeRepo.SetActive(lokacijaId, imaResurse);
         }
 
         public void SetActive(int id, bool active)
         {
+            var radnoMesto = _resursiRepo.GetById(id);
+            if (radnoMesto == null)
+                throw new Exception("Radno mesto ne postoji.");
+
             _resursiRepo.SetActive(id, active);
+
+            bool imaResurse = _resursiRepo.LokacijaImaAktivneResurse(radnoMesto.LokacijaId);
+            _lokacijeRepo.SetActive(radnoMesto.LokacijaId, imaResurse);
         }
 
         public List<Resurs> GetAllRadnaMesta()

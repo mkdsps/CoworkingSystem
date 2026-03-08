@@ -27,9 +27,8 @@ namespace CoworkingSystem
             _korisnikService = new KorisnikService(korisniciRepo);
             _tipClanstvaService = new TipClanstvaService(tipRepo);
             _lokacijaService = new LokacijaService(lokacijeRepo);
-            _radnoMestoService = new RadnoMestoService(resursiRepo);
-            _salaService = new SalaService(resursiRepo);
-            _rezervacijeService = new RezervacijeService(new SqlRepoFactory());
+            _radnoMestoService = new RadnoMestoService(resursiRepo,lokacijeRepo);
+            _salaService = new SalaService(resursiRepo,lokacijeRepo);
         }
     }
 }

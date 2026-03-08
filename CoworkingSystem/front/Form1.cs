@@ -1,5 +1,3 @@
-using CoworkingSystem.backend;
-using CoworkingSystem.backend.Modules;
 using CoworkingSystem.backend.Repositories;
 using CoworkingSystem.backend.Services;
 
@@ -56,11 +54,45 @@ namespace CoworkingSystem
         {
 
         }
-
-        private void label5_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
+            // Dodaj Korisnika
+            using (var f = new CoworkingSystem.front.KorisnikForma(this))
+            {
+                f.ShowDialog();
+            }
 
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Dodaj Lokaciju
+            using var f = new CoworkingSystem.front.LokacijaForma(this);
+            f.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Dodaj Tip Članstva
+            using var f = new CoworkingSystem.front.TipClanstvaForma();
+            f.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            // Dodaj Salu
+            using var f = new CoworkingSystem.front.SalaForma(this);
+            f.ShowDialog();
+            //MessageBox.Show("Klik radi!");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            // Dodaj Radno Mesto
+            using var f = new CoworkingSystem.front.RadnoMestoForma(this);
+            f.ShowDialog();
+        }
+
 
         private void OcistiSelekcijuGrida(DataGridView dgv)
         {
