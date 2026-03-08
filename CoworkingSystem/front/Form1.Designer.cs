@@ -37,14 +37,12 @@
             button3 = new Button();
             button4 = new Button();
             label1 = new Label();
-            comboBox1 = new ComboBox();
             cmbStatusNaloga = new ComboBox();
             cmbTipClanstva = new ComboBox();
             label3 = new Label();
             label4 = new Label();
             Korisnici = new Label();
             label6 = new Label();
-            label7 = new Label();
             label8 = new Label();
             label9 = new Label();
             button5 = new Button();
@@ -159,14 +157,6 @@
             label1.Text = "NAZIV";
             label1.Click += label1_Click_1;
             // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(1991, 159);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(170, 23);
-            comboBox1.TabIndex = 11;
-            // 
             // cmbStatusNaloga
             // 
             cmbStatusNaloga.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -225,15 +215,6 @@
             label6.TabIndex = 21;
             label6.Text = "Lokacije";
             label6.Click += label6_Click;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(2098, 129);
-            label7.Name = "label7";
-            label7.Size = new Size(63, 15);
-            label7.TabIndex = 22;
-            label7.Text = "Tip resursa";
             // 
             // label8
             // 
@@ -380,7 +361,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1904, 1041);
+            ClientSize = new Size(1925, 1041);
             Controls.Add(label5);
             Controls.Add(cmbTipResursa);
             Controls.Add(button8);
@@ -394,7 +375,6 @@
             Controls.Add(button5);
             Controls.Add(label9);
             Controls.Add(label8);
-            Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(Korisnici);
             Controls.Add(label4);
@@ -403,7 +383,6 @@
             Controls.Add(comboBox4);
             Controls.Add(cmbTipClanstva);
             Controls.Add(cmbStatusNaloga);
-            Controls.Add(comboBox1);
             Controls.Add(label1);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -415,6 +394,7 @@
             Controls.Add(dgvKorisnici);
             Name = "Form1";
             Text = "Form1";
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvKorisnici).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvLokacije).EndInit();
@@ -435,14 +415,12 @@
         private Button button3;
         private Button button4;
         private Label label1;
-        private ComboBox comboBox1;
         private ComboBox cmbStatusNaloga;
         private ComboBox cmbTipClanstva;
         private Label label3;
         private Label label4;
         private Label Korisnici;
         private Label label6;
-        private Label label7;
         private Label label8;
         private Label label9;        
         private Button button5;

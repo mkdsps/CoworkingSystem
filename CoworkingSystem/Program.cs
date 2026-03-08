@@ -17,10 +17,6 @@ namespace CoworkingSystem
             DbManager manager = DbManager.GetInstance();
             Config config = Config.getInstance();
 
-            MessageBox.Show(
-                $"Brand={config.name}\nType={config.type}\nCS={config.connectionString}",
-                "CONFIG DEBUG"
-            );
 
             //Andra.Run();
             //Igor.Run();
