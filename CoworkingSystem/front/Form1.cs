@@ -14,6 +14,19 @@ namespace CoworkingSystem
         {
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd.MM.yyyy";
+
+            InicijalizujServise();
+
+            InicijalizujGridKorisnici();
+            InicijalizujGridLokacije();
+            InicijalizujGridResursi();
+
+            UcitajTipoveClanstva();
+            PopuniStatuse();
+            PopuniTipoveResursa();
+
+            UcitajKorisnike();
+            UcitajLokacije();
         }
 
         private void label1_Click(object sender, EventArgs e)

@@ -376,5 +376,30 @@ namespace CoworkingSystem.backend.Repositories
 
             return r;
         }
+
+        public bool LokacijaImaAktivneResurse(int lokacijaId)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT CASE
+                    WHEN EXISTS (
+                        SELECT 1
+                        FROM Resursi
+                        WHERE LokacijaId = @lokacijaId
+                          AND Aktivan = 1
+                    )
+                    THEN 1
+                    ELSE 0
+                END;
+            ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId));
+
+            object result = cmd.ExecuteScalar()!;
+            return Convert.ToInt32(result) == 1;
+        }
     }
 }

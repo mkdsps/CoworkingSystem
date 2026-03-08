@@ -13,5 +13,6 @@ namespace CoworkingSystem.backend
         public IAdminRepo createAdminRepo();
         public IRezervacijeRepo createRezervacijeRepo();
         public IResursiRepo CreateResursiRepo();
+        public ITipClanstvaRepo CreateTipClanstvaRepo();
     }
 }

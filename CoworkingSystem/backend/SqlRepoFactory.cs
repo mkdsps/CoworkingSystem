@@ -32,5 +32,10 @@ namespace CoworkingSystem.backend
         {
             return new SqlResursiRepo();
         }
+
+        public ITipClanstvaRepo CreateTipClanstvaRepo()
+        {
+            return new SqlTipClanstvaRepo();
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace CoworkingSystem.backend.Services
 
 
         public int AddLokacija(string naziv, string adresa, string grad, string radnoVreme,
-                              int maksimalanBrojKorisnika, string? opis, bool aktivna = true)
+                      int maksimalanBrojKorisnika, string? opis)
         {
             Validate(naziv, adresa, grad, radnoVreme, maksimalanBrojKorisnika, opis);
 
@@ -44,7 +44,7 @@ namespace CoworkingSystem.backend.Services
                 RadnoVreme = radnoVreme.Trim(),
                 MaksimalanBrojKorisnika = maksimalanBrojKorisnika,
                 Opis = string.IsNullOrWhiteSpace(opis) ? null : opis.Trim(),
-                Aktivna = aktivna
+                Aktivna = false
             };
 
             return _lokacijeRepo.Insert(l);
