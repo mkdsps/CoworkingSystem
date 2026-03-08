@@ -63,10 +63,9 @@ namespace CoworkingSystem.backend.Services
             if (string.IsNullOrWhiteSpace(k.Telefon)) throw new Exception("Telefon je obavezan.");
 
             if (k.TipClanstvaId <= 0) throw new Exception("Tip članstva je obavezan.");
-            if (k.LokacijaId <= 0) throw new Exception("Lokacija je obavezna.");
 
             // status validacija
-            var s = (k.Status ?? "").Trim().ToLower();
+            var s = (k.Status ?? "").Trim();
             if (s != "Aktivan" && s != "Pauziran" && s != "Istekao")
                 throw new Exception("Status mora biti: aktivan, pauziran ili istekao.");
 

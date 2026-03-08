@@ -122,11 +122,16 @@ namespace CoworkingSystem.backend.Repositories
             var conditions = new List<string>();
 
             cmd.CommandText = @"
-                    SELECT rez.Id, rez.KorisnikId, rez.ResursId, rez.DatumVremePocetka, rez.DatumVremeZavrsetka,
-                           rez.Status, rez.BrojUcesnika, rez.Napomena, rez.DatumKreiranja, rez.DatumIzmene
-                    FROM Rezervacije rez
-                    INNER JOIN Resursi res ON rez.ResursId = res.Id
-                ";
+        SELECT rez.Id, rez.KorisnikId, rez.ResursId, rez.DatumVremePocetka, rez.DatumVremeZavrsetka,
+               rez.Status, rez.BrojUcesnika, rez.Napomena, rez.DatumKreiranja, rez.DatumIzmene,
+               kor.Ime AS ImeKorisnika,
+               kor.Prezime AS PrezimeKorisnika,
+               lok.Naziv AS NazivLokacije
+        FROM Rezervacije rez
+        INNER JOIN Korisnici kor ON rez.KorisnikId = kor.Id
+        INNER JOIN Resursi res ON rez.ResursId = res.Id
+        INNER JOIN Lokacije lok ON res.LokacijaId = lok.Id
+    ";
 
             if (filter.KorisnikId.HasValue)
             {
@@ -134,16 +139,34 @@ namespace CoworkingSystem.backend.Repositories
                 cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@korisnikId", filter.KorisnikId.Value));
             }
 
+            if (filter.LokacijaId.HasValue)
+            {
+                conditions.Add("lok.Id = @lokacijaId");
+                cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", filter.LokacijaId.Value));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.ImePrezimeKorisnika))
+            {
+                conditions.Add("(kor.Ime + ' ' + kor.Prezime) LIKE @imePrezimeKorisnika");
+                cmd.Parameters.Add(
+                    _dbManager.Adapter.CreateParameter(
+                        "@imePrezimeKorisnika",
+                        "%" + filter.ImePrezimeKorisnika.Trim() + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.NazivLokacije))
+            {
+                conditions.Add("lok.Naziv LIKE @nazivLokacije");
+                cmd.Parameters.Add(
+                    _dbManager.Adapter.CreateParameter(
+                        "@nazivLokacije",
+                        "%" + filter.NazivLokacije.Trim() + "%"));
+            }
+
             if (filter.ResursId.HasValue)
             {
                 conditions.Add("rez.ResursId = @resursId");
                 cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@resursId", filter.ResursId.Value));
-            }
-
-            if (filter.LokacijaId.HasValue)
-            {
-                conditions.Add("res.LokacijaId = @lokacijaId");
-                cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", filter.LokacijaId.Value));
             }
 
             if (filter.DatumOd.HasValue)
@@ -227,7 +250,11 @@ namespace CoworkingSystem.backend.Repositories
                 BrojUcesnika = r["BrojUcesnika"] == DBNull.Value ? null : Convert.ToInt32(r["BrojUcesnika"]),
                 Napomena = r["Napomena"] == DBNull.Value ? null : Convert.ToString(r["Napomena"]),
                 DatumKreiranja = Convert.ToDateTime(r["DatumKreiranja"]),
-                DatumIzmene = r["DatumIzmene"] == DBNull.Value ? null : Convert.ToDateTime(r["DatumIzmene"])
+                DatumIzmene = r["DatumIzmene"] == DBNull.Value ? null : Convert.ToDateTime(r["DatumIzmene"]),
+
+                ImeKorisnika = r["ImeKorisnika"] == DBNull.Value ? null : Convert.ToString(r["ImeKorisnika"]),
+                PrezimeKorisnika = r["PrezimeKorisnika"] == DBNull.Value ? null : Convert.ToString(r["PrezimeKorisnika"]),
+                NazivLokacije = r["NazivLokacije"] == DBNull.Value ? null : Convert.ToString(r["NazivLokacije"])
             };
         }
 

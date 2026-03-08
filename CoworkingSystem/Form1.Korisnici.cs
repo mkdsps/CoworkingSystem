@@ -154,6 +154,7 @@ namespace CoworkingSystem
         private void dgvKorisnici_SelectionChanged(object sender, EventArgs e)
         {
             SacuvajSelektovanogKorisnika();
+            OsveziRezervacije();
         }
     }
 }

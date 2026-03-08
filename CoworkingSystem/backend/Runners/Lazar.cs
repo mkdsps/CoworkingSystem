@@ -17,12 +17,9 @@ namespace CoworkingSystem.backend.Runners
                 IResursiRepo resursiRepo = new SqlResursiRepo();
                 ITipClanstvaRepo tipRepo = new SqlTipClanstvaRepo();
 
-                var statistikaService = new StatistikaService(resursiRepo, tipRepo);
-                var csvExportService = new CsvExportService();
-
-                // OVDE BIRAS KOJI IZVESTAJ HOCES
-                IReportPeriodStrategy strategy = new DailyReportStrategy();
-                // IReportPeriodStrategy strategy = new MonthlyReportStrategy();
+                IResursiRepo repo = new SqlResursiRepo();
+                ILokacijeRepo repoL = new SqlLokacijaRepo();
+                SalaService service = new SalaService(repo,repoL);
 
                 string folderPutanja = Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory,
