@@ -73,6 +73,11 @@ namespace CoworkingSystem.backend.Services
             if (k.DatumIsteka < k.DatumPocetka)
                 throw new Exception("Datum isteka ne sme biti pre datuma početka.");
         }
-    
+
+        public List<Korisnik> GetKorisniciSaRezervacijamaNaLokaciji(int lokacijaId)
+        {
+            return _korisnikRepo.GetKorisniciSaRezervacijamaNaLokaciji(lokacijaId);
+        }
+
     }
 }

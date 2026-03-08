@@ -33,6 +33,7 @@ namespace CoworkingSystem
 
             UcitajKorisnike();
             UcitajLokacije();
+            PopuniLokacijeZaFilterKorisnika();
             UcitajRezervacije();
         }
 

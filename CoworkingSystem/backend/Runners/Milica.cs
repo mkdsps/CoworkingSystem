@@ -6,19 +6,17 @@ using System.Windows.Forms;
 
 namespace CoworkingSystem.backend.Runners
 {
-    internal class Lazar
+    internal class Milica
     {
-        private static ExportScheduler? _scheduler;
-
         public static void Run()
         {
             try
             {
-
+                
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "LAZAR FAIL");
+                MessageBox.Show(ex.ToString(), "Milica FAIL");
             }
         }
     }
