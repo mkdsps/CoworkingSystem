@@ -58,6 +58,8 @@
             comboBox4 = new ComboBox();
             cmbTipResursa = new ComboBox();
             label5 = new Label();
+            button9 = new Button();
+            button10 = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvKorisnici).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvLokacije).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvResursi).BeginInit();
@@ -357,11 +359,33 @@
             label5.TabIndex = 39;
             label5.Text = "Vrsta resursa";
             // 
+            // button9
+            // 
+            button9.Location = new Point(12, 346);
+            button9.Name = "button9";
+            button9.Size = new Size(75, 23);
+            button9.TabIndex = 40;
+            button9.Text = "unselect";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(1806, 346);
+            button10.Name = "button10";
+            button10.Size = new Size(75, 23);
+            button10.TabIndex = 41;
+            button10.Text = "unselect";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1925, 1041);
+            ClientSize = new Size(1924, 1041);
+            Controls.Add(button10);
+            Controls.Add(button9);
             Controls.Add(label5);
             Controls.Add(cmbTipResursa);
             Controls.Add(button8);
@@ -436,5 +460,7 @@
         private ComboBox comboBox4;
         private ComboBox cmbTipResursa;
         private Label label5;
+        private Button button9;
+        private Button button10;
     }
 }

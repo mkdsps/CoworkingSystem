@@ -157,5 +157,31 @@ namespace CoworkingSystem
                 OsveziRezervacije();
             }
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            _selektovaniKorisnik = null;
+            _selektovanaRezervacija = null;
+
+            OsveziKorisnike();
+            dgvKorisnici.ClearSelection();
+
+            OsveziRezervacije();
+            dgvRezervacije.ClearSelection();
+            dgvRezervacije.CurrentCell = null;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            _selektovanaLokacija = null;
+            _selektovanaRezervacija = null;
+
+            OsveziLokacije();
+            dgvLokacije.ClearSelection();
+
+            OsveziRezervacije();
+            dgvRezervacije.ClearSelection();
+            dgvRezervacije.CurrentCell = null;
+        }
     }
 }
