@@ -31,7 +31,7 @@
             dgvKorisnici = new DataGridView();
             dgvLokacije = new DataGridView();
             dgvResursi = new DataGridView();
-            dataGridView2 = new DataGridView();
+            dgvRezervacije = new DataGridView();
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
@@ -53,7 +53,7 @@
             label10 = new Label();
             label11 = new Label();
             dateTimePicker1 = new DateTimePicker();
-            checkBox1 = new CheckBox();
+            chkDatum = new CheckBox();
             button7 = new Button();
             button8 = new Button();
             label2 = new Label();
@@ -63,7 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvKorisnici).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvLokacije).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvResursi).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRezervacije).BeginInit();
             SuspendLayout();
             // 
             // dgvKorisnici
@@ -99,13 +99,14 @@
             dgvResursi.TabIndex = 4;
             dgvResursi.SelectionChanged += dgvResursi_SelectionChanged;
             // 
-            // dataGridView2
+            // dgvRezervacije
             // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(642, 539);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(1079, 288);
-            dataGridView2.TabIndex = 5;
+            dgvRezervacije.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRezervacije.Location = new Point(642, 539);
+            dgvRezervacije.Name = "dgvRezervacije";
+            dgvRezervacije.Size = new Size(1079, 288);
+            dgvRezervacije.TabIndex = 5;
+            dgvRezervacije.CellContentClick += dgvRezervacije_CellContentClick;
             // 
             // button1
             // 
@@ -115,6 +116,7 @@
             button1.TabIndex = 6;
             button1.Text = "Kreiraj Rezervaciju";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -261,6 +263,7 @@
             button5.TabIndex = 28;
             button5.Text = "Izmeni Rezervaciju";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button6
             // 
@@ -270,6 +273,7 @@
             button6.TabIndex = 29;
             button6.Text = "Otkazi rezervaciju";
             button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // txtPretragaKorisnika
             // 
@@ -304,15 +308,17 @@
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(177, 23);
             dateTimePicker1.TabIndex = 34;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
-            // checkBox1
+            // chkDatum
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(1706, 511);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(15, 14);
-            checkBox1.TabIndex = 35;
-            checkBox1.UseVisualStyleBackColor = true;
+            chkDatum.AutoSize = true;
+            chkDatum.Location = new Point(1706, 511);
+            chkDatum.Name = "chkDatum";
+            chkDatum.Size = new Size(15, 14);
+            chkDatum.TabIndex = 35;
+            chkDatum.UseVisualStyleBackColor = true;
+            chkDatum.CheckedChanged += chkDatum_CheckedChanged;
             // 
             // button7
             // 
@@ -379,7 +385,7 @@
             Controls.Add(cmbTipResursa);
             Controls.Add(button8);
             Controls.Add(button7);
-            Controls.Add(checkBox1);
+            Controls.Add(chkDatum);
             Controls.Add(dateTimePicker1);
             Controls.Add(label11);
             Controls.Add(label10);
@@ -403,7 +409,7 @@
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
-            Controls.Add(dataGridView2);
+            Controls.Add(dgvRezervacije);
             Controls.Add(dgvResursi);
             Controls.Add(dgvLokacije);
             Controls.Add(dgvKorisnici);
@@ -413,7 +419,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvKorisnici).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvLokacije).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvResursi).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRezervacije).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -423,7 +429,7 @@
         private DataGridView dgvKorisnici;
         private DataGridView dgvLokacije;
         private DataGridView dgvResursi;
-        private DataGridView dataGridView2;
+        private DataGridView dgvRezervacije;
         private Button button1;
         private Button button2;
         private Button button3;
@@ -445,7 +451,7 @@
         private Label label10;
         private Label label11;
         private DateTimePicker dateTimePicker1;
-        private CheckBox checkBox1;
+        private CheckBox chkDatum;
         private Button button7;
         private Button button8;
         private Label label2;
