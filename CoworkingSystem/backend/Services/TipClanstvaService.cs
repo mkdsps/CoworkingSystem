@@ -1,5 +1,6 @@
 ﻿using CoworkingSystem.backend.Modules;
 using CoworkingSystem.backend.Repositories;
+using CoworkingSystem.backend.Statistike;
 using System;
 using System.Collections.Generic;
 
@@ -69,5 +70,6 @@ namespace CoworkingSystem.backend.Services
             // Aktivan je bool -> nema validacije
             // DatumKreiranja obično puni baza -> nema validacije ovde
         }
+
     }
 }

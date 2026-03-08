@@ -1,5 +1,6 @@
 ﻿using CoworkingSystem.backend.Modules;
 using CoworkingSystem.backend.Repositories;
+using CoworkingSystem.backend.Statistike;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -77,5 +78,6 @@ namespace CoworkingSystem.backend.Services
             if (sala.Povrsina.HasValue && sala.Povrsina <= 0)
                 throw new Exception("Povrsina mora biti veca od 0.");
         }
+
     }
 }
