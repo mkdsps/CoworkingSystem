@@ -1,69 +1,49 @@
-﻿using CoworkingSystem.backend.dbConnection;
-using CoworkingSystem.backend.Modules;
-using CoworkingSystem.backend.Repositories;
-using CoworkingSystem.backend.Services;
+﻿using CoworkingSystem.backend.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace CoworkingSystem.backend.Runners
 {
     internal class Andra
     {
-        
         public static void Run()
         {
             try
             {
-                SqlRepoFactory repo = new SqlRepoFactory();
-                var service = new LokacijaService(repo.CreateLokacijeRepo());
-                var loginService = new AdminService(repo.createAdminRepo());
-                var log = loginService.Validate("andrija", "admin123");
-                if(log)
-                {
-                    MessageBox.Show("USPESNO");
-                }
-                else
-                {
-                    MessageBox.Show("NIJE");
-                }
-
-                var all = service.GetLokacijeSaStatistikom();
-
-                var activeOnly = service.GetLokacijeSaStatistikom(onlyActiveLocations: true);
-
+                var korisniciRepo = new SqlKorisnikRepo();
                 var sb = new StringBuilder();
-                sb.AppendLine("=== Lokacije sa statistikama ===");
-                sb.AppendLine($"Sve lokacije: {all.Count}");
-                sb.AppendLine($"Samo aktivne: {activeOnly.Count}");
+
+                sb.AppendLine("=== TEST KORISNICI SA REZERVACIJAMA ZA LOKACIJU ===");
                 sb.AppendLine();
 
-                if (all.Count == 0)
-                {
-                    sb.AppendLine("Nema lokacija u bazi. Ubaci bar jednu lokaciju i radna mesta.");
-                    MessageBox.Show(sb.ToString(), "Test statistike", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
+                int lokacijaId = 1;
 
-                // Prikaži prvih par (da ne bude predugačko)
-                foreach (var x in all.Take(5))
+                var rezultat = korisniciRepo.GetKorisniciSaRezervacijamaNaLokaciji(lokacijaId);
+
+                sb.AppendLine($"Lokacija ID: {lokacijaId}");
+                sb.AppendLine($"Ukupno korisnika: {rezultat.Count}");
+                sb.AppendLine();
+
+                foreach (var k in rezultat)
                 {
                     sb.AppendLine(
-                        $"{x.LokacijaId} | {x.Naziv} ({x.Grad})" +
-                        $" -> Ukupno desk: {x.UkupnoRadnihMesta}," +
-                        $" Trenutno zauzeto: {x.TrenutnoRezervisano}," +
-                        $" Zauzetost: {x.ProcenatZauzetosti}%"
+                        $"KorisnikId: {k.Id} | " +
+                        $"{k.Ime} {k.Prezime} | " +
+                        $"Email: {k.Email} | "
                     );
                 }
 
-                MessageBox.Show(sb.ToString(), "Test statistike OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-
+                MessageBox.Show(
+                    sb.ToString(),
+                    "TEST KORISNICI / LOKACIJA",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "IGOR FAIL");
+                MessageBox.Show(ex.ToString(), "TEST FAIL");
             }
         }
     }

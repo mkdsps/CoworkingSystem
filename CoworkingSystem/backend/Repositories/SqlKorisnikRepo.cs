@@ -28,9 +28,9 @@ namespace CoworkingSystem.backend.Repositories
             // SQL upit za INSERT
             cmd.CommandText = $@"
                 INSERT INTO Korisnici
-                    (Ime, Prezime, Email, Telefon, TipClanstvaId, DatumPocetka, DatumIsteka, Status, LokacijaId, Napomena, DatumRegistracije)
+                    (Ime, Prezime, Email, Telefon, TipClanstvaId, DatumPocetka, DatumIsteka, Status, Napomena, DatumRegistracije)
                 VALUES
-                    (@ime, @prezime, @email, @telefon, @tipClanstvaId, @datumPocetka, @datumIsteka, @status, @lokacijaId, @napomena, {_dbManager.Adapter.GetCurrentDateTimeFunction()});
+                    (@ime, @prezime, @email, @telefon, @tipClanstvaId, @datumPocetka, @datumIsteka, @status, @napomena, {_dbManager.Adapter.GetCurrentDateTimeFunction()});
                 {_dbManager.Adapter.GetLastInsertIdQuery()}; 
             ";
             // {_dbManager.Adapter.GetLastInsertIdQuery()} sluzi da se dobije id reda posle dodavanj u bazu, josuvek ga ne koristimo....
@@ -44,7 +44,6 @@ namespace CoworkingSystem.backend.Repositories
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@datumPocetka", k.DatumPocetka));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@datumIsteka", k.DatumIsteka));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@status", k.Status));
-            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", k.LokacijaId));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@napomena", k.Napomena));
 
             // ExecuteScalar vraća ID novog korisnika
@@ -70,7 +69,6 @@ namespace CoworkingSystem.backend.Repositories
                     DatumPocetka = @datumPocetka,
                     DatumIsteka = @datumIsteka,
                     Status = @status,
-                    LokacijaId = @lokacijaId,
                     Napomena = @napomena
                 WHERE Id = @id;
             ";
@@ -84,7 +82,6 @@ namespace CoworkingSystem.backend.Repositories
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@datumPocetka", k.DatumPocetka));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@datumIsteka", k.DatumIsteka));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@status", k.Status));
-            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", k.LokacijaId));
             cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@napomena", k.Napomena));
 
             cmd.ExecuteNonQuery();
@@ -117,7 +114,7 @@ namespace CoworkingSystem.backend.Repositories
                 SELECT
                     Id, Ime, Prezime, Email, Telefon,
                     TipClanstvaId, DatumPocetka, DatumIsteka,
-                    Status, LokacijaId, Napomena
+                    Status, Napomena, DatumRegistracije
                 FROM Korisnici;
             ";
 
@@ -141,8 +138,8 @@ namespace CoworkingSystem.backend.Repositories
                     DatumPocetka = GetDateTime(r, "DatumPocetka"),
                     DatumIsteka = GetDateTime(r, "DatumIsteka"),
                     Status = GetString(r, "Status"),
-                    LokacijaId = GetInt(r, "LokacijaId"),
-                    Napomena = GetString(r, "Napomena")
+                    Napomena = GetString(r, "Napomena"),
+                    DatumRegistracije = Convert.ToDateTime(r["DatumRegistracije"])                
                 };
 
                 list.Add(k);
@@ -160,11 +157,6 @@ namespace CoworkingSystem.backend.Repositories
 
             var whereParts = new List<string>();
 
-            if (filter.LokacijaId.HasValue)
-            {
-                whereParts.Add("LokacijaId = @lokacijaId");
-                cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", filter.LokacijaId.Value));
-            }
 
             if (filter.TipClanstvaId.HasValue)
             {
@@ -196,7 +188,6 @@ namespace CoworkingSystem.backend.Repositories
                     DatumPocetka,
                     DatumIsteka,
                     Status,
-                    LokacijaId,
                     Napomena
                 FROM Korisnici
                 {whereSql};
@@ -219,7 +210,6 @@ namespace CoworkingSystem.backend.Repositories
                     DatumPocetka = GetDateTime(r, "DatumPocetka"),
                     DatumIsteka = GetDateTime(r, "DatumIsteka"),
                     Status = GetString(r, "Status"),
-                    LokacijaId = GetInt(r, "LokacijaId"),
                     Napomena = GetString(r, "Napomena")
                 });
             }
@@ -257,7 +247,7 @@ namespace CoworkingSystem.backend.Repositories
                 SELECT
                     Id, Ime, Prezime, Email, Telefon,
                     TipClanstvaId, DatumPocetka, DatumIsteka,
-                    Status, LokacijaId, Napomena
+                    Status, Napomena
                 FROM Korisnici
                 WHERE Id = @id;
             ";
@@ -280,11 +270,63 @@ namespace CoworkingSystem.backend.Repositories
                 DatumPocetka = GetDateTime(r, "DatumPocetka"),
                 DatumIsteka = GetDateTime(r, "DatumIsteka"),
                 Status = GetString(r, "Status"),
-                LokacijaId = GetInt(r, "LokacijaId"),
                 Napomena = GetString(r, "Napomena")
             };
 
             return k;
+        }
+
+        public List<Korisnik> GetKorisniciSaRezervacijamaNaLokaciji(int lokacijaId)
+        {
+            using var conn = _dbManager.Connection;
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+        SELECT DISTINCT
+            k.Id,
+            k.Ime,
+            k.Prezime,
+            k.Email,
+            k.Telefon,
+            k.TipClanstvaId,
+            k.DatumPocetka,
+            k.DatumIsteka,
+            k.Status,
+            k.Napomena,
+            k.DatumRegistracije
+        FROM Korisnici k
+        INNER JOIN Rezervacije rez ON rez.KorisnikId = k.Id
+        INNER JOIN Resursi r ON r.Id = rez.ResursId
+        WHERE r.LokacijaId = @lokacijaId
+          AND rez.Status <> 'Otkazana'
+        ORDER BY k.Prezime, k.Ime;
+    ";
+
+            cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", lokacijaId));
+
+            using var r = cmd.ExecuteReader();
+
+            var list = new List<Korisnik>();
+            while (r.Read())
+            {
+                list.Add(new Korisnik
+                {
+                    Id = GetInt(r, "Id"),
+                    Ime = GetString(r, "Ime"),
+                    Prezime = GetString(r, "Prezime"),
+                    Email = GetString(r, "Email"),
+                    Telefon = GetString(r, "Telefon"),
+                    TipClanstvaId = GetInt(r, "TipClanstvaId"),
+                    DatumPocetka = GetDateTime(r, "DatumPocetka"),
+                    DatumIsteka = GetDateTime(r, "DatumIsteka"),
+                    Status = GetString(r, "Status"),
+                    Napomena = GetString(r, "Napomena"),
+                    DatumRegistracije = GetDateTime(r, "DatumRegistracije")
+                });
+            }
+
+            return list;
         }
     }
 }

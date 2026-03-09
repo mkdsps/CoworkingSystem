@@ -9,8 +9,10 @@ namespace CoworkingSystem.backend
     {
         // dodaj za svaki tip repo-a
         public IKorisniciRepo CreateKorisniciRepo();
-        public IRezervacijeRepo rezervacijeRepo();
         public ILokacijeRepo CreateLokacijeRepo();
         public IAdminRepo createAdminRepo();
+        public IRezervacijeRepo createRezervacijeRepo();
+        public IResursiRepo CreateResursiRepo();
+        public ITipClanstvaRepo CreateTipClanstvaRepo();
     }
 }

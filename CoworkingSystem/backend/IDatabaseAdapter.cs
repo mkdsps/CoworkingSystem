@@ -18,5 +18,13 @@ namespace CoworkingSystem.backend
         object CreateParameter(string name, object value);
 
         string GetLimitClause(int limit, int offset);
+
+        string GetTimeDifferenceInHours(string startColumn, string endColumn);
+
+        string GetTimePartExpression(string expression);
+
+        string GetRadnoVremeStartExpression(string columnName);
+
+        string GetRadnoVremeEndExpression(string columnName);
     }
 }

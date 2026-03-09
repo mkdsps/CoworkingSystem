@@ -9,7 +9,7 @@ namespace CoworkingSystem.backend
     {
         public string GetLastInsertIdQuery()
         {
-            return "SELECT SCOPE_IDENTITY()";
+            return "SELECT CAST(SCOPE_IDENTITY() AS int)";
         }
 
         public string GetCurrentDateTimeFunction()
@@ -40,6 +40,26 @@ namespace CoworkingSystem.backend
         public string GetLimitClause(int limit, int offset)
         {
             return $"OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
+        }
+
+        public string GetTimeDifferenceInHours(string start, string end)
+        {
+            return $"DATEDIFF(HOUR, {start}, {end})";
+        }
+
+        public string GetTimePartExpression(string expression)
+        {
+            return $"CAST({expression} AS TIME)";
+        }
+
+        public string GetRadnoVremeStartExpression(string columnName)
+        {
+            return $"CAST(SUBSTRING({columnName}, 1, 5) AS TIME)";
+        }
+
+        public string GetRadnoVremeEndExpression(string columnName)
+        {
+            return $"CAST(SUBSTRING({columnName}, 7, 5) AS TIME)";
         }
     }
 }
