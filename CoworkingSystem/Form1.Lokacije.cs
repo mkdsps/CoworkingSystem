@@ -38,9 +38,9 @@ namespace CoworkingSystem
 
         private void SakrijKoloneLokacija()
         {
-            var idKolona = dgvLokacije.Columns["Id"];
-            if (idKolona != null)
-                idKolona.Visible = false;
+            //var idKolona = dgvLokacije.Columns["Id"];
+            //if (idKolona != null)
+            //    idKolona.Visible = false;
 
             var datumKolona = dgvLokacije.Columns["DatumKreiranja"];
             if (datumKolona != null)

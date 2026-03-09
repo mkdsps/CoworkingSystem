@@ -38,9 +38,9 @@ namespace CoworkingSystem
 
         private void SakrijKoloneKorisnici()
         {
-            var idKolona = dgvKorisnici.Columns["Id"];
-            if (idKolona != null)
-                idKolona.Visible = false;
+            //var idKolona = dgvKorisnici.Columns["Id"];
+            //if (idKolona != null)
+            //    idKolona.Visible = false;
 
             var passKolona = dgvKorisnici.Columns["PasswordHash"];
             if (passKolona != null)

@@ -145,23 +145,6 @@ namespace CoworkingSystem.backend.Repositories
                 cmd.Parameters.Add(_dbManager.Adapter.CreateParameter("@lokacijaId", filter.LokacijaId.Value));
             }
 
-            if (!string.IsNullOrWhiteSpace(filter.ImePrezimeKorisnika))
-            {
-                conditions.Add("(kor.Ime + ' ' + kor.Prezime) LIKE @imePrezimeKorisnika");
-                cmd.Parameters.Add(
-                    _dbManager.Adapter.CreateParameter(
-                        "@imePrezimeKorisnika",
-                        "%" + filter.ImePrezimeKorisnika.Trim() + "%"));
-            }
-
-            if (!string.IsNullOrWhiteSpace(filter.NazivLokacije))
-            {
-                conditions.Add("lok.Naziv LIKE @nazivLokacije");
-                cmd.Parameters.Add(
-                    _dbManager.Adapter.CreateParameter(
-                        "@nazivLokacije",
-                        "%" + filter.NazivLokacije.Trim() + "%"));
-            }
 
             if (filter.ResursId.HasValue)
             {
@@ -251,10 +234,6 @@ namespace CoworkingSystem.backend.Repositories
                 Napomena = r["Napomena"] == DBNull.Value ? null : Convert.ToString(r["Napomena"]),
                 DatumKreiranja = Convert.ToDateTime(r["DatumKreiranja"]),
                 DatumIzmene = r["DatumIzmene"] == DBNull.Value ? null : Convert.ToDateTime(r["DatumIzmene"]),
-
-                ImeKorisnika = r["ImeKorisnika"] == DBNull.Value ? null : Convert.ToString(r["ImeKorisnika"]),
-                PrezimeKorisnika = r["PrezimeKorisnika"] == DBNull.Value ? null : Convert.ToString(r["PrezimeKorisnika"]),
-                NazivLokacije = r["NazivLokacije"] == DBNull.Value ? null : Convert.ToString(r["NazivLokacije"])
             };
         }
 
