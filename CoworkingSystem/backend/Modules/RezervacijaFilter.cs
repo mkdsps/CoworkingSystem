@@ -9,8 +9,6 @@ namespace CoworkingSystem.backend.Modules
         public int? KorisnikId { get; set; }
         public int? ResursId { get; set; }
         public int? LokacijaId { get; set; }
-        public string? ImePrezimeKorisnika { get; set; }
-        public string? NazivLokacije { get; set; }
         public DateTime? DatumOd { get; set; }
         public DateTime? DatumDo { get; set; }
 

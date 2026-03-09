@@ -8,7 +8,7 @@ namespace CoworkingSystem.backend.Modules
         public string Naziv { get; set; }
         public decimal Cena { get; set; }
         public int TrajanjeDana { get; set; }
-        public int MaksimalnoSatiMesecno { get; set; }
+        public int? MaksimalnoSatiMesecno { get; set; }
         public bool DozvolaSale { get; set; }
         public int? SaleSatiMesecno { get; set; }
         public string? Opis { get; set; }

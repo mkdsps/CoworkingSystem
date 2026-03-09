@@ -37,14 +37,6 @@ namespace CoworkingSystem
             if (idKolona != null)
                 idKolona.Visible = false;
 
-            var korisnikIdKolona = dgvRezervacije.Columns["KorisnikId"];
-            if (korisnikIdKolona != null)
-                korisnikIdKolona.Visible = false;
-
-            var resursIdKolona = dgvRezervacije.Columns["ResursId"];
-            if (resursIdKolona != null)
-                resursIdKolona.Visible = false;
-
             var brojUcesnikaKolona = dgvRezervacije.Columns["BrojUcesnika"];
             if (brojUcesnikaKolona != null)
                 brojUcesnikaKolona.Visible = false;
@@ -57,22 +49,15 @@ namespace CoworkingSystem
             if (prezimeKolona != null)
                 prezimeKolona.Visible = false;
 
-            var datumKreiranjaKolona = dgvRezervacije.Columns["DatumKreiranja"];
-            if (datumKreiranjaKolona != null)
-                datumKreiranjaKolona.Visible = false;
+            //var datumKreiranjaKolona = dgvRezervacije.Columns["DatumKreiranja"];
+            //if (datumKreiranjaKolona != null)
+            //    datumKreiranjaKolona.Visible = false;
 
-            var datumIzmeneKolona = dgvRezervacije.Columns["DatumIzmene"];
-            if (datumIzmeneKolona != null)
-                datumIzmeneKolona.Visible = false;
+            //var datumIzmeneKolona = dgvRezervacije.Columns["DatumIzmene"];
+            //if (datumIzmeneKolona != null)
+            //    datumIzmeneKolona.Visible = false;
 
-            // Ako koristiš puno ime kao computed property
-            var korisnikPunoImeKolona = dgvRezervacije.Columns["KorisnikPunoIme"];
-            if (korisnikPunoImeKolona != null)
-                korisnikPunoImeKolona.HeaderText = "Korisnik";
-
-            var nazivLokacijeKolona = dgvRezervacije.Columns["NazivLokacije"];
-            if (nazivLokacijeKolona != null)
-                nazivLokacijeKolona.HeaderText = "Lokacija";
+            
 
             var datumPocetkaKolona = dgvRezervacije.Columns["DatumVremePocetka"];
             if (datumPocetkaKolona != null)
@@ -81,6 +66,14 @@ namespace CoworkingSystem
             var datumKrajaKolona = dgvRezervacije.Columns["DatumVremeZavrsetka"];
             if (datumKrajaKolona != null)
                 datumKrajaKolona.HeaderText = "Kraj";
+
+            var korisnik = dgvRezervacije.Columns["KorisnikPunoIme"];
+            if (korisnik != null)
+                korisnik.Visible = false;
+
+            var lokacija = dgvRezervacije.Columns["NazivLokacije"];
+            if (lokacija != null)
+                lokacija.Visible = false;
         }
 
         private void OsveziRezervacije()

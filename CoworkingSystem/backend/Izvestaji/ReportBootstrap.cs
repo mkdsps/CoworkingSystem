@@ -13,8 +13,11 @@ namespace CoworkingSystem.backend.Izvestaji
         {
             IResursiRepo resursiRepo = new SqlResursiRepo();
             ITipClanstvaRepo tipClanstvaRepo = new SqlTipClanstvaRepo();
+            IKorisniciRepo korisniciRepo = new SqlKorisnikRepo();
+            IRezervacijeRepo rezervacijeRepo = new SqlRezervacijeRepo();
+            ILokacijeRepo lokacijeRepo = new SqlLokacijaRepo();
 
-            var statistikaService = new StatistikaService(resursiRepo, tipClanstvaRepo);
+            var statistikaService = new StatistikaService(resursiRepo, tipClanstvaRepo,korisniciRepo,rezervacijeRepo,lokacijeRepo);
             var csvExportService = new CsvExportService();
 
             // OVDE BIRAS KOJI IZVESTAJ HOCES
